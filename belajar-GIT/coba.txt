@@ -1,2 +1,3 @@
-Nama  : Rahul Bin Subagio
-Nim   : 123180033
+Nama    : Rahul Bin Subagio
+Nim     : 123180033
+Alamat  : Sulsel 
