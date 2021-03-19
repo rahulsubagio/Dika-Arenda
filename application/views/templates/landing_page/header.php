@@ -12,7 +12,7 @@
     <style>
         body {
             height: 100%;
-            background-image: url("<?= base_url('assets/gambar/background.jpeg') ?>"),
+            background-image: url("<?= base_url('assets/gambar/Background.jpg') ?>"),
                 linear-gradient(rgba(75, 75, 75, 1), rgba(75, 75, 75, 0.3));
             background-size: cover;
             background-position: center;
@@ -39,23 +39,6 @@
             width: 50%;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            width: 100%;
-            opacity: 0;
-            transition: .5s ease;
-            background-color: #008CBA;
-        }
-
-        .icon-link:hover .overlay {
-            opacity: 1;
-        }
-
         .text {
             color: white;
             font-size: 20px;
@@ -79,3 +62,21 @@
     <!-- Custom styles for this template -->
     <link href="<?= base_url('assets/css/cover.css') ?>" rel="stylesheet">
 </head>
+
+<body class="d-flex h-100 text-center text-white">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div>
+                <h3 class="float-md-start mb-0">Dika Arenda</h3>
+                <nav class="nav nav-masthead justify-content-center float-md-end">
+                    <a class="nav-link <?= $this->session->flashdata('home'); ?>" aria-current="page" href="<?= base_url(); ?>">Home</a>
+                    <a class="nav-link <?= $this->session->flashdata('about'); ?>" href="<?= base_url('home/'); ?>about">About Us</a>
+                    <a class="nav-link" href="#">Contact</a>
+                    <?php
+                    unset($_SESSION['home']);
+                    unset($_SESSION['about']);
+                    ?>
+                </nav>
+            </div>
+        </header>

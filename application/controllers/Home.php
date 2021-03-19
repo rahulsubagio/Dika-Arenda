@@ -7,20 +7,17 @@ class Home extends CI_Controller
   {
     $this->session->set_flashdata('home', 'active');
 
-    $this->load->view('css/home');
-    $this->load->view('template/header_home');
+    $this->load->view('templates/landing_page/header');
     $this->load->view('home/index');
-    $this->load->view('template/footer_home');
+    $this->load->view('templates/landing_page/footer');
   }
 
   public function about()
   {
     $this->session->set_flashdata('about', 'active');
 
-    $this->load->view('css/home');
-    $this->load->view('template/header');
+    $this->load->view('templates/landing_page/header');
     $this->load->view('home/about');
-    $this->load->view('template/footer');
+    $this->load->view('templates/landing_page/footer');
   }
-
 }
