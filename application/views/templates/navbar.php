@@ -38,7 +38,7 @@
     </button>
     <ul class="navbar-nav px-3">
       <li class="nav-item text-nowrap">
-        <a class="nav-link" href="#">Logout</a>
+        <a class="nav-link" href="<?= base_url('home') ?>">Logout</a>
       </li>
     </ul>
   </header>
