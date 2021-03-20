@@ -7,7 +7,7 @@
 			</a>
 		</div>
 		<div class="col">
-			<a class="icon-link" href="#marketing">
+			<a class="icon-link" href="<?= base_url('auth') ?>">
 				<img src="<?= base_url('assets/gambar/b-marketing.png') ?>" class="icon">
 			</a>
 		</div>
