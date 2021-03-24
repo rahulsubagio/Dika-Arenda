@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>UD Dika Arenda</title>
+  <title>Dika Arenda</title>
 
   <!-- Bootstrap core CSS -->
   <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
@@ -31,9 +31,10 @@
 
 <body>
   <div class="container text-center">
-    <div class="card shadow m-auto" style="width: 25rem;">
+    <div class="card shadow m-auto rounded-3" style="width: 25rem;">
       <div class="card-body">
-        <h1 class="card-title h2 fw-bold" style="color: #F5A433;">UD Dika Arenda</h1>
+        <img src="<?= base_url('assets/gambar/Ayam.png') ?>" width="100">
+        <h1 class="card-title h2 fw-bold" style="color: #F5A433;">Dika Arenda</h1>
         <form class="form-signin" action="<?= base_url('') ?>" method="POST">
 
           <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
