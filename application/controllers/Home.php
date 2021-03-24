@@ -20,4 +20,13 @@ class Home extends CI_Controller
     $this->load->view('home/about');
     $this->load->view('templates/landing_page/footer');
   }
+
+  public function contact()
+  {
+    $this->session->set_flashdata('contact', 'active');
+
+    $this->load->view('templates/landing_page/header');
+    $this->load->view('home/contact');
+    $this->load->view('templates/landing_page/footer');
+  }
 }
