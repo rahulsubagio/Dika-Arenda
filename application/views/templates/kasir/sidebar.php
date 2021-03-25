@@ -17,7 +17,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('kasir/leger') ?>">
               <span data-feather="file"></span>
               Leger
             </a>
@@ -76,6 +76,7 @@
 
         <?php 
         	unset($_SESSION['jurnal']);
+          unset($_SESSION['leger']);
         ?>
       </div>
     </nav>

@@ -12,8 +12,8 @@
       </button>
     </div>
   </div>
+  <h5>Hari Ini : <?= date("d M Y"); ?></h5>
   <table class="table table-hover">
-    <h5>Hari Ini : <?= date("d M Y"); ?></h5>
     <thead class="table-light">
       <tr align="center">
         <th>No.</th>
