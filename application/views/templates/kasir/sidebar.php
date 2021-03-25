@@ -11,33 +11,33 @@
             <span>Penjualan</span>
           </h6>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="<?= base_url('kasir/jurnal') ?>">
               <span data-feather="home"></span>
-              Kasir
+              Jurnal
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('kasir/leger') ?>">
               <span data-feather="file"></span>
-              Orders
+              Leger
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="shopping-cart"></span>
-              Products
+              Rekap Harian
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="users"></span>
-              Customers
+              Rekap Bulanan
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="bar-chart-2"></span>
-              Reports
+              Rekap Penjualan
             </a>
           </li>
           <hr>
@@ -48,15 +48,15 @@
             <span>penyusutan</span>
           </h6>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link" aria-current="page" href="#">
               <span data-feather="home"></span>
-              Kasir
+              Rekap Mingguan
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file"></span>
-              Orders
+              Rekap Bulanan
             </a>
           </li>
           <hr>
@@ -73,5 +73,10 @@
             </a>
           </li>
         </ul>
+
+        <?php 
+        	unset($_SESSION['jurnal']);
+          unset($_SESSION['leger']);
+        ?>
       </div>
     </nav>
