@@ -13,7 +13,7 @@
 		body {
 			height: 100%;
 			background-image: url("<?= base_url('assets/gambar/Background.jpg') ?>"),
-				linear-gradient(rgba(75, 75, 75, 1), rgba(75, 75, 75, 0.3));
+				linear-gradient(rgba(75, 75, 75, 1), rgba(75, 75, 75, 0.8));
 			background-size: cover;
 			background-position: center;
 			background-color: rgba(75, 75, 75, 0.3);
@@ -29,7 +29,7 @@
 		}
 
 		.icon {
-			width: 100%;
+			width: 95%;
 			height: auto;
 			display: block;
 		}
@@ -65,9 +65,9 @@
 
 <body class="d-flex h-100 text-center text-white">
 
-	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+	<div class="container d-flex p-3 px-5 mx-auto flex-column">
 		<header class="mb-auto">
-			<div>
+			<div class="cover-container mx-auto">
 				<h3 class="float-md-start mb-0">Dika Arenda</h3>
 				<nav class="nav nav-masthead justify-content-center float-md-end">
 					<a class="nav-link <?= $this->session->flashdata('home'); ?>" aria-current="page" href="<?= base_url(); ?>">Home</a>
