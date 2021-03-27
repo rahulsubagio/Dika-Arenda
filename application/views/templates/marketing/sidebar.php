@@ -42,7 +42,7 @@
         </ul>
 
         <ul class="nav flex-column px-3">
-          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3   mb-1 text-white fs-6">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-white fs-6">
             <span>penyusutan</span>
           </h6>
           <li class="nav-item">

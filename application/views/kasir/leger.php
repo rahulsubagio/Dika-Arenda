@@ -105,5 +105,69 @@
       </table>
     </div>
   </div>
-
+  <br>
+  <table class="table table-hover">
+    <thead class="table-light">
+      <tr align="center">
+        <th rowspan="2">No.</th>
+        <th rowspan="2">Tanggal</th>
+        <th colspan="2">Jumlah</th>
+        <th>Harga</th>
+        <th>Jumlah</th>
+        <th>a</th>
+        <th>Total</th>
+        <th>Pembayaran</th>
+        <th>Saldo</th>
+      </tr>
+      <tr align="center">
+        <th>Ekor</th>
+        <th>Kg</th>
+        <th>Rp</th>
+        <th>Rp</th>
+        <th>Rp</th>
+        <th>Rp</th>
+        <th>Rp</th>
+        <th>Rp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center">1.</td>
+        <td>02/03/2021</td>
+        <td align="center">4</td>
+        <td align="center">5,1</td>
+        <td align="center">21.000</td>
+        <td align="center">107.100</td>
+        <td align="center">-</td>
+        <td align="center">107.100</td>
+        <td align="center">107.100</td>
+        <td align="center">-102.000</td>
+      </tr>
+      <tr>
+        <td align="center">2.</td>
+        <td>04/03/2021</td>
+        <td align="center">5</td>
+        <td align="center">5,1</td>
+        <td align="center">21.000</td>
+        <td align="center">107.100</td>
+        <td align="center">-</td>
+        <td align="center">107.100</td>
+        <td align="center">107.100</td>
+        <td align="center">-102.000</td>
+      </tr>
+    </tbody>
+    <tfoot class="table-light">
+      <tr>
+        <td colspan="2">Subtotal</td>
+        <td align="center">116</td>
+        <td align="center">122,6</td>
+        <td align="center">22.609</td>
+        <td align="center">2.777.570</td>
+        <td align="center">333</td>
+        <td align="center">2.767.570</td>
+        <td align="center">3.034.920</td>
+        <td align="center">Rp -234.000</td>
+      </tr>
+    </tfoot>
+  </table>
 </main>

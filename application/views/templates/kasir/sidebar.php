@@ -23,19 +23,19 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="<?= base_url('kasir/rekapHarian') ?>">
               <span data-feather="shopping-cart"></span>
               Rekap Harian
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+          <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href="<?= base_url('kasir/rekapBulanan') ?>">
               <span data-feather="users"></span>
               Rekap Bulanan
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+          <a class="nav-link <?= $this->session->flashdata('rekjual'); ?>" href="<?= base_url('kasir/rekapPenjualan') ?>">
               <span data-feather="bar-chart-2"></span>
               Rekap Penjualan
             </a>
@@ -74,9 +74,12 @@
           </li>
         </ul>
 
-        <?php 
-        	unset($_SESSION['jurnal']);
-          unset($_SESSION['leger']);
+        <?php
+        unset($_SESSION['jurnal']);
+        unset($_SESSION['leger']);
+        unset($_SESSION['rekhar']);
+        unset($_SESSION['rekbul']);
+        unset($_SESSION['rekjual']);
         ?>
       </div>
     </nav>
