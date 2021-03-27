@@ -1,6 +1,6 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2 text-secondary"><?= $this->session->flashdata('judul'); ?></h1>
+    <h1 class="h2 text-secondary">Rekapitulasi Penyusutan Mingguan</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -16,93 +16,131 @@
     <div class="card-body">
       <form action="" class="row g-3">
         <div class="col-md-3">
-        <h5>Hari Ini : <?= date("d M Y"); ?></h5>
+          <h5>Bulan Ini : <?= date("M Y"); ?></h5>
         </div>
         <div class="col-md-3">
           <label for="inputEmail4" class="form-label">Pilih bulan</label>
           <input type="date" class="form-control" id="inputEmail4">
         </div>
+        <div class="col-md-3">
+          <h5>Minggu ke - 1</h5>
+        </div>
       </form>
+      <br>
       <table class="table table-hover">
-        <thead class="table-light">
+        <thead class="table-light table-striped">
           <tr align="center">
-            <th rowspan="2">No.</th>
-            <th rowspan="2">Customer</th>
-            <th rowspan="2">Code</th>
-            <th colspan="2">Jumlah</th>
-            <th>Harga</th>
-            <th>Jumlah</th>
-            <th>a</th>
-            <th>Total</th>
-            <th>Pembayaran</th>
-            <?php if ($this->session->flashdata('button') == "on") : ?>
-            <th rowspan="2"></th>
-            <?php endif; ?>
+            <th rowspan="3">No.</th>
+            <th rowspan="3">Hari</th>
+            <th rowspan="3">Tanggal</th>
+            <th rowspan="2" colspan="2">Ayam Masuk</th>
+            <th rowspan="2" colspan="2">Penjualan</th>
+            <th colspan="6">Ayam Mati</th>
+            <th colspan="4">Stock Ayam</th>
+            <th rowspan="2" colspan="3">Penyusutan</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr align="center">
+            <th colspan="2">Kandang</th>
+            <th colspan="2">Armada</th>
+            <th colspan="2">RPA</th>
+            <th colspan="2">Admin</th>
+            <th colspan="2">Riil</th>
           </tr>
           <tr align="center">
             <th>Ekor</th>
             <th>Kg</th>
-            <th>Rp</th>
-            <th>Rp</th>
-            <th>Rp</th>
-            <th>Rp</th>
-            <th>Rp</th>
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Ekor</th>
+            <th>Kg %</th>
+            <th>Ket</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td align="center">1.</td>
-            <td>Rahul Subagio</td>
-            <td align="center">C12</td>
-            <td align="center">4</td>
-            <td align="center">5,1</td>
-            <td align="center">21.000</td>
-            <td align="center">107.100</td>
+            <td align="center">Senin</td>
+            <td align="center">01/03/2021</td>
+            <td align="center">1.035</td>
+            <td align="center">1.221,5</td>
+            <td align="center">892</td>
+            <td align="center">923,7</td>
+            <td align="center">1</td>
+            <td align="center">1,1</td>
+            <td align="center">2</td>
+            <td align="center">2,5</td>
+            <td align="center">0</td>
+            <td align="center">0</td>
+            <td align="center">502</td>
+            <td align="center">521,5</td>
+            <td align="center">497</td>
+            <td align="center">816</td>
             <td align="center">-</td>
-            <td align="center">107.100</td>
-            <td align="center">107.100</td>
-            <?php if ($this->session->flashdata('button') == "on") : ?>
+            <td align="center">3,4</td>
+            <td align="center"></td>
             <td align="center">
               <a href="#" class="btn btn-primary btn-sm">Ubah</a>
               <a href="#" class="btn btn-danger btn-sm">Hapus</a>
             </td>
-            <?php endif; ?>
           </tr>
           <tr>
-            <td align="center">2.</td>
-            <td>Budi Setiawan</td>
-            <td align="center">C1</td>
-            <td align="center">5</td>
-            <td align="center">5,1</td>
-            <td align="center">21.000</td>
-            <td align="center">107.100</td>
+            <td align="center">1.</td>
+            <td align="center">Senin</td>
+            <td align="center">01/03/2021</td>
+            <td align="center">1.035</td>
+            <td align="center">1.221,5</td>
+            <td align="center">892</td>
+            <td align="center">923,7</td>
+            <td align="center">1</td>
+            <td align="center">1,1</td>
+            <td align="center">2</td>
+            <td align="center">2,5</td>
+            <td align="center">0</td>
+            <td align="center">0</td>
+            <td align="center">502</td>
+            <td align="center">521,5</td>
+            <td align="center">497</td>
+            <td align="center">816</td>
             <td align="center">-</td>
-            <td align="center">107.100</td>
-            <td align="center">107.100</td>
-            <?php if ($this->session->flashdata('button') == "on") : ?>
+            <td align="center">3,4</td>
+            <td align="center"></td>
             <td align="center">
               <a href="#" class="btn btn-primary btn-sm">Ubah</a>
               <a href="#" class="btn btn-danger btn-sm">Hapus</a>
             </td>
-            <?php endif; ?>
           </tr>
         </tbody>
         <tfoot class="table-light">
           <tr>
             <td colspan="3">Subtotal</td>
-            <td align="center">116</td>
-            <td align="center">122,6</td>
-            <td align="center">22.609</td>
-            <td align="center">2.777.570</td>
-            <td align="center">333</td>
-            <td align="center">2.767.570</td>
-            <td align="center">3.034.920</td>
-            <?php if ($this->session->flashdata('button') == "on") : ?>
-            <td align="center">
-              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">Tambah</button>
+            <td align="center">8.904</td>
+            <td align="center">14.023,8</td>
+            <td align="center">8.799</td>
+            <td align="center">14.027,3</td>
+            <td align="center">5</td>
+            <td align="center">5,7</td>
+            <td align="center">3</td>
+            <td align="center">3,4</td>
+            <td align="center">2</td>
+            <td align="center">2,4</td>
+            <td align="center">809</td>
+            <td align="center">853,4</td>
+            <td align="center">800</td>
+            <td align="center">831,1</td>
+            <td align="center" colspan="4">
+              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
             </td>
-            <?php endif; ?>
           </tr>
         </tfoot>
       </table>

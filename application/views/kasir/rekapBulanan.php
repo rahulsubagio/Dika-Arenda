@@ -14,7 +14,16 @@
   </div>
   <div class="card shadow-sm">
     <div class="card-body">
-      <h5>Hari Ini : <?= date("d M Y"); ?></h5>
+    <form action="" class="row g-3">
+        <div class="col-md-3">
+        <h5>Bulan Ini : <?= date("M Y"); ?></h5>
+        </div>
+        <div class="col-md-3">
+          <label for="inputEmail4" class="form-label">Pilih bulan</label>
+          <input type="date" class="form-control" id="inputEmail4">
+        </div>
+      </form>
+      <br>
       <table class="table table-hover">
         <thead class="table-light">
           <tr align="center">
