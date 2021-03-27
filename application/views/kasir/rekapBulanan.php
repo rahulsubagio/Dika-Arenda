@@ -18,33 +18,33 @@
       <table class="table table-hover">
         <thead class="table-light">
           <tr align="center">
-            <th>No.</th>
-            <th>Customer</th>
-            <th>Code</th>
-            <th>Ekor</th>
-            <th>Kg</th>
+            <th rowspan="2">No.</th>
+            <th rowspan="2">Customer</th>
+            <th rowspan="2">Code</th>
+            <th colspan="2">Jumlah</th>
             <th>Harga</th>
             <th>Jumlah</th>
             <th>a</th>
             <th>Total</th>
             <th>Pembayaran</th>
+            <th>Saldo Awal</th>
+            <th>Saldo Akhir</th>
+          </tr>
+          <tr align="center">
+            <th>Ekor</th>
+            <th>Kg</th>
+            <th>Rp</th>
+            <th>Rp</th>
+            <th>Rp</th>
+            <th>Rp</th>
+            <th>Rp</th>
+            <th>Rp</th>
+            <th>Rp</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td align="center">1.</td>
-            <td>Rahul Subagio</td>
-            <td align="center">C12</td>
-            <td align="center">4</td>
-            <td align="center">5,1</td>
-            <td align="center">21.000</td>
-            <td align="center">107.100</td>
-            <td align="center">-</td>
-            <td align="center">107.100</td>
-            <td align="center">107.100</td>
-          </tr>
-          <tr>
-            <td align="center">2.</td>
             <td>Budi Setiawan</td>
             <td align="center">C1</td>
             <td align="center">5</td>
@@ -54,6 +54,22 @@
             <td align="center">-</td>
             <td align="center">107.100</td>
             <td align="center">107.100</td>
+            <td align="center">- 102.000</td>
+            <td align="center">- 234.000</td>
+          </tr>
+          <tr>
+            <td align="center">2.</td>
+            <td>Rahul Subagio</td>
+            <td align="center">C2</td>
+            <td align="center">4</td>
+            <td align="center">5,1</td>
+            <td align="center">21.000</td>
+            <td align="center">107.100</td>
+            <td align="center">-</td>
+            <td align="center">107.100</td>
+            <td align="center">107.100</td>
+            <td align="center">- 102.000</td>
+            <td align="center">- 234.000</td>
           </tr>
         </tbody>
         <tfoot class="table-light">
@@ -66,6 +82,8 @@
             <td align="center">333</td>
             <td align="center">2.767.570</td>
             <td align="center">3.034.920</td>
+            <td align="center">- 1.034.920</td>
+            <td align="center">2.034.920</td>
           </tr>
         </tfoot>
       </table>
