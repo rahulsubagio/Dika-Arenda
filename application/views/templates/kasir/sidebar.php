@@ -56,6 +56,7 @@
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file"></span>
+<<<<<<< HEAD
               Rekap Bulanan
             </a>
           </li>
@@ -68,11 +69,25 @@
           </h6>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="<?= base_url('home') ?>">
+=======
+              Orders
+            </a>
+          </li>
+        </ul>
+
+        <ul class="nav flex-column px-3">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3   mb-1 text-white fs-6">
+            <span>user</span>
+          </h6>
+          <li class="nav-item">
+            <a class="nav-link active text-white" aria-current="page" href="#">
+>>>>>>> main
               <span data-feather="user"></span>
               Logout
             </a>
           </li>
         </ul>
+<<<<<<< HEAD
 
         <?php
         unset($_SESSION['jurnal']);
@@ -81,5 +96,7 @@
         unset($_SESSION['rekbul']);
         unset($_SESSION['rekjual']);
         ?>
+=======
+>>>>>>> main
       </div>
     </nav>
