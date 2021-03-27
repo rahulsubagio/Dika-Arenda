@@ -48,13 +48,13 @@
             <span>penyusutan</span>
           </h6>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">
+          <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('kasir/penyusutanMingguan') ?>">
               <span data-feather="home"></span>
               Rekap Mingguan
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+          <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('kasir/penyusutanBulanan') ?>">
               <span data-feather="file"></span>
               Rekap Bulanan
             </a>
@@ -80,6 +80,8 @@
         unset($_SESSION['rekhar']);
         unset($_SESSION['rekbul']);
         unset($_SESSION['rekjual']);
+        unset($_SESSION['susutMinggu']);
+        unset($_SESSION['susutBulan']);
         ?>
       </div>
     </nav>

@@ -65,4 +65,24 @@ class Kasir extends CI_Controller
     $this->load->view('templates/footer');
   }
 
+  public function penyusutanMingguan()
+  {
+    $this->session->set_flashdata('susutMinggu', 'active');
+
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/susutMinggu');
+    $this->load->view('templates/footer');
+  }
+
+  public function penyusutanBulanan()
+  {
+    $this->session->set_flashdata('susutBulan', 'active');
+
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/susutBulan');
+    $this->load->view('templates/footer');
+  }
+
 }
