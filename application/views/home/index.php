@@ -12,7 +12,7 @@
 			</a>
 		</div>
 		<div class="col">
-			<a class="icon-link m-auto" href="#pimpinan">
+			<a class="icon-link m-auto" href="<?= base_url('auth') ?>">
 				<img src="<?= base_url('assets/gambar/b-pimpinan.png') ?>" class="icon shadow">
 			</a>
 		</div>
