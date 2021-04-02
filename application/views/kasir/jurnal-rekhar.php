@@ -16,13 +16,14 @@
     <div class="card-body">
       <form action="" class="row g-3">
         <div class="col-md-3">
-        <h5>Hari Ini : <?= date("d M Y"); ?></h5>
+          <h5>Hari Ini : <?= date("d M Y"); ?></h5>
         </div>
         <div class="col-md-3">
           <label for="inputEmail4" class="form-label">Pilih bulan</label>
           <input type="date" class="form-control" id="inputEmail4">
         </div>
       </form>
+      <br>
       <table class="table table-hover">
         <thead class="table-light">
           <tr align="center">
@@ -36,7 +37,7 @@
             <th>Total</th>
             <th>Pembayaran</th>
             <?php if ($this->session->flashdata('button') == "on") : ?>
-            <th rowspan="2"></th>
+              <th rowspan="2"></th>
             <?php endif; ?>
           </tr>
           <tr align="center">
@@ -62,10 +63,10 @@
             <td align="center">107.100</td>
             <td align="center">107.100</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
-            <td align="center">
-              <a href="#" class="btn btn-primary btn-sm">Ubah</a>
-              <a href="#" class="btn btn-danger btn-sm">Hapus</a>
-            </td>
+              <td align="center">
+                <a href="#" class="btn btn-primary btn-sm">Ubah</a>
+                <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+              </td>
             <?php endif; ?>
           </tr>
           <tr>
@@ -80,10 +81,10 @@
             <td align="center">107.100</td>
             <td align="center">107.100</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
-            <td align="center">
-              <a href="#" class="btn btn-primary btn-sm">Ubah</a>
-              <a href="#" class="btn btn-danger btn-sm">Hapus</a>
-            </td>
+              <td align="center">
+                <a href="#" class="btn btn-primary btn-sm">Ubah</a>
+                <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+              </td>
             <?php endif; ?>
           </tr>
         </tbody>
@@ -98,10 +99,9 @@
             <td align="center">2.767.570</td>
             <td align="center">3.034.920</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
-            <td align="center">
-              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">Tambah</button>
-            </td>
+              <td align="center">
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+              </td>
             <?php endif; ?>
           </tr>
         </tfoot>
@@ -174,4 +174,3 @@
     </div>
   </div>
 </main>
-
