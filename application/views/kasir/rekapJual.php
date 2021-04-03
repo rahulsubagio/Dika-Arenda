@@ -19,9 +19,14 @@
         <div class="col-md-3">
           <h5>Bulan Ini : <?= date("M Y"); ?></h5>
         </div>
-        <div class="col-md-3">
-          <label for="inputEmail4" class="form-label">Pilih bulan</label>
-          <input type="date" class="form-control" id="inputEmail4">
+        <div class="col-md-9 row">
+          <label class="col-form-label col-md-2">Pilih Bulan</label>
+          <div class="col-md-5">
+            <input type="month" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary">Cek &downdownarrows;</button>
+          </div>
         </div>
       </form>
       <br>

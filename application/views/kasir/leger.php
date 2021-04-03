@@ -19,16 +19,24 @@
         <div class="col-md-3">
           <h5>Bulan Ini : <?= date("M Y"); ?></h5>
         </div>
-        <div class="col-md-3">
-          <label for="inputEmail4" class="form-label">Pilih bulan</label>
-          <input type="date" class="form-control" id="inputEmail4">
+        <div class="col-md-9 row">
+          <label class="col-form-label col-md-2">Pilih Bulan</label>
+          <div class="col-md-3">
+            <input type="month" class="form-control">
+          </div>
+          <label class="col-form-label col-md-2">Customer</label>
+          <div class="col-md-3">
+            <select class="form-select">
+              <option selected>Code - Nama</option>
+              <option>...</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary">Cek &downdownarrows;</button>
+          </div>
         </div>
         <div class="col-md-3">
-          <label for="inputPassword4" class="form-label">Customer</label>
-          <select id="inputState" class="form-select">
-            <option selected>Choose...</option>
-            <option>...</option>
-          </select>
+
         </div>
       </form>
       <br>

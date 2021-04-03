@@ -68,6 +68,7 @@ class Kasir extends CI_Controller
   public function penyusutanMingguan()
   {
     $this->session->set_flashdata('susutMinggu', 'active');
+    $this->session->set_flashdata('button', 'on');
 
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');

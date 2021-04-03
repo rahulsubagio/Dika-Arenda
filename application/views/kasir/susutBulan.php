@@ -19,15 +19,12 @@
           <h5>Bulan Ini : <?= date("M Y"); ?></h5>
         </div>
         <div class="col-md-9 row">
-          <label class="col-form-label col-md-2">Pilih bulan</label>
-          <div class="col-md-5">
-            <input type="month" class="form-control">
-          </div>
-        </div>
-        <div class="col-md-9 row">
-          <label class="col-form-label col-md-2">Pilih Minggu</label>
+          <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-5">
             <input type="week" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary">Cek &downdownarrows;</button>
           </div>
         </div>
       </form>
