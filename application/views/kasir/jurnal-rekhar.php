@@ -18,9 +18,14 @@
         <div class="col-md-3">
           <h5>Hari Ini : <?= date("d M Y"); ?></h5>
         </div>
-        <div class="col-md-3">
-          <label for="inputEmail4" class="form-label">Pilih bulan</label>
-          <input type="date" class="form-control" id="inputEmail4">
+        <div class="col-md-9 row">
+          <label class="col-form-label col-md-2">Pilih Tanggal</label>
+          <div class="col-md-5">
+            <input type="date" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary">Cek &downdownarrows;</button>
+          </div>
         </div>
       </form>
       <br>
@@ -64,6 +69,7 @@
             <td align="center">107.100</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
               <td align="center">
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalEdit">BtnUbah</button>
                 <a href="#" class="btn btn-primary btn-sm">Ubah</a>
                 <a href="#" class="btn btn-danger btn-sm">Hapus</a>
               </td>
@@ -100,7 +106,7 @@
             <td align="center">3.034.920</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
               <td align="center">
-                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalTambah">Tambah</button>
               </td>
             <?php endif; ?>
           </tr>
@@ -109,8 +115,8 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal Tambah -->
+  <div class="modal fade" id="ModalTambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -173,4 +179,72 @@
       </div>
     </div>
   </div>
+</main>
+
+<!-- Modal Edit -->
+<div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pengubahan Transaksi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <table align="center" class="table">
+            <tr>
+              <td>Code Customer</td>
+              <td>
+                <fieldset disabled="disabled">
+                  <select name="" id="disabledSelect" class="disabled">
+                    <option value="">Pilih Code - Nama</option>
+                    <option value="">C12 - Rahul Subagio</option>
+                  </select>
+                </fieldset>
+              </td>
+            </tr>
+            <tr align="center" class="table-dark">
+              <td colspan="2">Transaksi Pembelian</td>
+            </tr>
+            <tr>
+              <td>Jumlah (Ekor)</td>
+              <td><input type="text" placeholder="Jumlah ayam (ekor)"></td>
+            </tr>
+            <tr>
+              <td>Berat (Kg)</td>
+              <td><input type="text" placeholder="Berat total ayam (kg)"></td>
+            </tr>
+            <tr>
+              <td>Harga (Rp.)</td>
+              <td><input type="text" placeholder="Harga ayam per kg"></td>
+            </tr>
+            <tr>
+              <td>Jumlah</td>
+              <td>Bagian JS buat perhitungan langsungnya (Harga * Kg)</td>
+            </tr>
+            <tr>
+              <td>a</td>
+              <td><input type="text" placeholder="kompensasi per kg"></td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>Bagian JS buat perhitungan langsungnya (Jumlah - (a * Kg))</td>
+            </tr>
+            <tr align="center" class="table-dark">
+              <td colspan="2">Bagian Pembayaran</td>
+            </tr>
+            <tr>
+              <td>Pembayaran (Rp.)</td>
+              <td><input type="text" placeholder="Pembayaran dalam rupiah"></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary">Tambah / Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>

@@ -11,31 +11,31 @@
             <span>Penjualan</span>
           </h6>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="#">
+            <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="<?= base_url('pimpinan/jurnal') ?>">
               <span data-feather="home"></span>
               Jurnal
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="#">
+            <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/leger') ?>">
               <span data-feather="file"></span>
               Leger
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="#">
+            <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="<?= base_url('pimpinan/rekapHarian') ?>">
               <span data-feather="shopping-cart"></span>
               Rekap Harian
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href=#">
+            <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href="<?= base_url('pimpinan/rekapBulanan') ?>">
               <span data-feather="users"></span>
               Rekap Bulanan
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('rekjual'); ?>" href="#">
+            <a class="nav-link <?= $this->session->flashdata('rekjual'); ?>" href="<?= base_url('pimpinan/rekapPenjualan') ?>">
               <span data-feather="bar-chart-2"></span>
               Rekap Penjualan
             </a>
@@ -48,13 +48,13 @@
             <span>penyusutan</span>
           </h6>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="#">
+            <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('pimpinan/penyusutanMingguan') ?>">
               <span data-feather="home"></span>
               Rekap Mingguan
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="#">
+            <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('pimpinan/penyusutanBulanan') ?>">
               <span data-feather="file"></span>
               Rekap Bulanan
             </a>
