@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 05 Mar 2021 pada 04.44
+-- Waktu pembuatan: 03 Apr 2021 pada 04.33
 -- Versi server: 10.4.13-MariaDB
 -- Versi PHP: 7.4.8
 
@@ -64,6 +64,20 @@ CREATE TABLE `detail_penyusutan` (
   `admin_kg` float NOT NULL,
   `riil_ekor` int(11) NOT NULL,
   `riil_kg` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `detail_rekening`
+--
+
+CREATE TABLE `detail_rekening` (
+  `code` varchar(10) NOT NULL,
+  `id_rekening` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `saldo_awal` int(11) NOT NULL,
+  `saldo_akhir` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -175,7 +189,6 @@ CREATE TABLE `produk` (
 
 CREATE TABLE `rekening` (
   `id_rekening` int(11) NOT NULL,
-  `code` varchar(10) NOT NULL,
   `saldo_akhir` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -249,6 +262,13 @@ ALTER TABLE `detail_penyusutan`
   ADD KEY `fk_penyusutan` (`id_penyusutan`);
 
 --
+-- Indeks untuk tabel `detail_rekening`
+--
+ALTER TABLE `detail_rekening`
+  ADD KEY `fk_code` (`code`),
+  ADD KEY `fk_rekening` (`id_rekening`);
+
+--
 -- Indeks untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
@@ -304,8 +324,7 @@ ALTER TABLE `produk`
 -- Indeks untuk tabel `rekening`
 --
 ALTER TABLE `rekening`
-  ADD PRIMARY KEY (`id_rekening`),
-  ADD KEY `fk_code` (`code`);
+  ADD PRIMARY KEY (`id_rekening`);
 
 --
 -- Indeks untuk tabel `transaksi`
@@ -398,6 +417,13 @@ ALTER TABLE `detail_penyusutan`
   ADD CONSTRAINT `fk_penyusutan_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `detail_rekening`
+--
+ALTER TABLE `detail_rekening`
+  ADD CONSTRAINT `fk_code` FOREIGN KEY (`code`) REFERENCES `customer` (`code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_rekening` FOREIGN KEY (`id_rekening`) REFERENCES `rekening` (`id_rekening`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ketidakleluasaan untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
@@ -423,12 +449,6 @@ ALTER TABLE `neraca_transaksi`
 --
 ALTER TABLE `penjualan`
   ADD CONSTRAINT `fk_code_penjualan` FOREIGN KEY (`code`) REFERENCES `customer` (`code`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `rekening`
---
-ALTER TABLE `rekening`
-  ADD CONSTRAINT `fk_code` FOREIGN KEY (`code`) REFERENCES `customer` (`code`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `transaksi`
