@@ -67,6 +67,7 @@
             <td align="center">-</td>
             <td align="center">107.100</td>
             <td align="center">107.100</td>
+            <td align="center">107.100</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
               <td align="center">
                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalEdit">BtnUbah</button>
@@ -84,6 +85,7 @@
             <td align="center">21.000</td>
             <td align="center">107.100</td>
             <td align="center">-</td>
+            <td align="center">107.100</td>
             <td align="center">107.100</td>
             <td align="center">107.100</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
@@ -104,6 +106,7 @@
             <td align="center">333</td>
             <td align="center">2.767.570</td>
             <td align="center">3.034.920</td>
+            <td align="center">5.107.100</td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
               <td align="center">
                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalTambah">Tambah</button>
