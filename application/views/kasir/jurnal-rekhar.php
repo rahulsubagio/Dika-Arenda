@@ -117,38 +117,79 @@
 
   <!-- Modal Tambah -->
   <div class="modal fade" id="ModalTambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Penambahan Transaksi Baru</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="">
+    <form action="<?= base_url() ?>kasir/tambahTransaksi" method="POST">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Penambahan Transaksi Baru</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
             <table align="center" class="table">
+              <tr align="center" class="table-dark">
+                <td colspan="2">Customer</td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Customer Lama</td>
+              </tr>
               <tr>
                 <td>Code Customer</td>
                 <td>
-                  <select name="" id="">
-                    <option value="">Pilih Code - Nama</option>
-                    <option value="">C12 - Rahul Subagio</option>
-                  </select>
+                  <?php if (isset($customer)) : ?>
+                    <select name="customer" id="">
+                      <option value="">Pilih Code - Nama</option>
+                      <?php foreach ($customer as $c) : ?>
+                        <option value="<?= $c['code']; ?>"><?= $c['code']; ?> - <?= $c['nama_customer']; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  <?php endif; ?>
                 </td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Customer Baru</td>
+              </tr>
+              <tr>
+                <td>Jenis Customer</td>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" id="customer" value="customer">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Customer -> Code Terbaru : (C<?= $countCustomer; ?>)
+                    </label>
+                    <input type="hidden" name="codeCustomerBaru" value="C<?= $countCustomer; ?>">
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" id="umum" value="umum">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Umum -> Code Terbaru : (U<?= $countUmum; ?>)
+                    </label>
+                    <input type="hidden" name="codeUmumBaru" value="U<?= $countUmum; ?>">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Nama</td>
+                <td><input type="text" name="customerBaru" placeholder="Nama customer"></td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td><input type="text" name="alamatBaru" placeholder="Alamat Customer"></td>
               </tr>
               <tr align="center" class="table-dark">
                 <td colspan="2">Transaksi Pembelian</td>
               </tr>
               <tr>
                 <td>Jumlah (Ekor)</td>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)"></td>
+                <td><input name="ekor" type="text" placeholder="Jumlah ayam (ekor)"></td>
               </tr>
               <tr>
                 <td>Berat (Kg)</td>
-                <td><input type="text" placeholder="Berat total ayam (kg)"></td>
+                <td><input name="kg" type="text" placeholder="Berat total ayam (kg)"></td>
               </tr>
               <tr>
                 <td>Harga (Rp.)</td>
-                <td><input type="text" placeholder="Harga ayam per kg"></td>
+                <td><input name="harga" type="text" placeholder="Harga ayam per kg"></td>
               </tr>
               <tr>
                 <td>Jumlah</td>
@@ -156,7 +197,7 @@
               </tr>
               <tr>
                 <td>a</td>
-                <td><input type="text" placeholder="kompensasi per kg"></td>
+                <td><input name="a" type="text" placeholder="kompensasi per kg"></td>
               </tr>
               <tr>
                 <td>Total</td>
@@ -167,17 +208,17 @@
               </tr>
               <tr>
                 <td>Pembayaran (Rp.)</td>
-                <td><input type="text" placeholder="Pembayaran dalam rupiah"></td>
+                <td><input name="pembayaran" type="text" placeholder="Pembayaran dalam rupiah"></td>
               </tr>
             </table>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Tambah / Simpan</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Tambah / Simpan</button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </main>
 
