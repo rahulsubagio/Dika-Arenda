@@ -22,13 +22,26 @@ class Kasir extends CI_Controller
   {
     $this->session->set_flashdata('jurnal', 'active');
     $this->session->set_flashdata('judul', 'Jurnal Transaksi');
-    $this->session->set_flashdata('button', 'on');
 
     $data['customer'] = $this->Kasir_model->getCustomer();
     $countC = $this->Kasir_model->countCustomer('customer') + 1;
     $countU = $this->Kasir_model->countCustomer('umum') + 1;
     $data['countCustomer'] = $countC;
     $data['countUmum'] = $countU;
+    $tanggal =$this->input->post('tanggal');
+    $today = date("Y-m-d");
+
+    if(isset($_POST['update']) && $tanggal!=$today){
+      $data['transaksi'] = $this->Kasir_model->getTransaksi($tanggal);
+      $data['subtotal'] = $this->Kasir_model->getSubtotalJurnal($tanggal);
+      $data['hari'] = $tanggal;
+      $this->session->set_flashdata('button', 'off');
+    } else {
+      $data['transaksi'] = $this->Kasir_model->getTransaksi($today);
+      $data['subtotal'] = $this->Kasir_model->getSubtotalJurnal($today);
+      $data['hari'] = $today;
+      $this->session->set_flashdata('button', 'on');
+    }
 
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');
@@ -52,9 +65,22 @@ class Kasir extends CI_Controller
     $this->session->set_flashdata('judul', 'Rekapitulasi Transaksi Harian');
     $this->session->set_flashdata('button', 'off');
 
+    $tanggal =$this->input->post('tanggal');
+    $today = date("Y-m-d");
+
+    if(isset($_POST['update'])){
+      $data['transaksi'] = $this->Kasir_model->getTransaksiCustomer($tanggal);
+      $data['subtotal'] = $this->Kasir_model->getSubtotalRekap($tanggal);
+      $data['hari'] = $tanggal;
+    } else {
+      $data['transaksi'] = $this->Kasir_model->getTransaksiCustomer($today);
+      $data['subtotal'] = $this->Kasir_model->getSubtotalRekap($today);
+      $data['hari'] = $today;
+    }
+
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/jurnal-rekhar');
+    $this->load->view('kasir/jurnal-rekhar', $data);
     $this->load->view('templates/footer');
   }
 
