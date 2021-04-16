@@ -28,10 +28,10 @@ class Kasir extends CI_Controller
     $countU = $this->Kasir_model->countCustomer('umum') + 1;
     $data['countCustomer'] = $countC;
     $data['countUmum'] = $countU;
-    $tanggal =$this->input->post('tanggal');
+    $tanggal = $this->input->post('tanggal');
     $today = date("Y-m-d");
 
-    if(isset($_POST['update']) && $tanggal!=$today){
+    if (isset($_POST['update']) && $tanggal != $today) {
       $data['transaksi'] = $this->Kasir_model->getTransaksi($tanggal);
       $data['subtotal'] = $this->Kasir_model->getSubtotalJurnal($tanggal);
       $data['hari'] = $tanggal;
@@ -52,10 +52,23 @@ class Kasir extends CI_Controller
   public function leger()
   {
     $this->session->set_flashdata('leger', 'active');
+    $data['daftar_customer'] = $this->Kasir_model->getCustomerLangganan();
+
+    if (isset($_POST['update'])) {
+      $bulan = $this->input->post('bulan');
+      $code = $this->input->post('customer');
+      $dataBulan = strtotime($bulan);
+      $bulannya = date("M Y", $dataBulan);
+      
+      $data['transaksi'] = $this->Kasir_model->getTransaksiCustomerLeger($bulan, $code);
+      $data['customer'] = $this->Kasir_model->getDetailCustomer($code, $bulan);
+      $data['subtotal'] = $this->Kasir_model->getSubtotalLeger($bulan, $code);
+      $data['bulan'] = $bulannya;
+    } 
 
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/leger');
+    $this->load->view('kasir/leger', $data);
     $this->load->view('templates/footer');
   }
 
@@ -65,10 +78,10 @@ class Kasir extends CI_Controller
     $this->session->set_flashdata('judul', 'Rekapitulasi Transaksi Harian');
     $this->session->set_flashdata('button', 'off');
 
-    $tanggal =$this->input->post('tanggal');
+    $tanggal = $this->input->post('tanggal');
     $today = date("Y-m-d");
 
-    if(isset($_POST['update'])){
+    if (isset($_POST['update'])) {
       $data['transaksi'] = $this->Kasir_model->getTransaksiCustomer($tanggal);
       $data['subtotal'] = $this->Kasir_model->getSubtotalRekap($tanggal);
       $data['hari'] = $tanggal;
@@ -157,26 +170,24 @@ class Kasir extends CI_Controller
       );
 
       $jenisCode = substr($code, 0, 1);
-      if($jenisCode == "C"){
-        $saldoTambahan = ($total*-1)+$pembayaran;
+      if ($jenisCode == "C") {
+        $saldoTambahan = ($total * -1) + $pembayaran;
 
         $detailRekening = $this->Kasir_model->getDetailRekening($code, $tanggalSatu);
 
         $idRekening = intval($detailRekening['id_rekening']);
         $dataRekening = $this->Kasir_model->getRekening($idRekening);
 
-        $saldoBaru = intval($dataRekening['saldo_akhir'])+$saldoTambahan;
+        $saldoBaru = intval($dataRekening['saldo_akhir']) + $saldoTambahan;
         $this->Kasir_model->updateRekening($idRekening, $saldoBaru);
 
         $saldoAkhirBulan = intval($detailRekening['saldo_akhir']);
         $saldoAkhirBulanBaru = $saldoAkhirBulan + $saldoTambahan;
         $this->Kasir_model->updateDetailRekening($code, $tanggalSatu, $saldoAkhirBulanBaru);
       }
-      
+
       $this->Kasir_model->tambahTransaksi($data);
-    } 
-    
-    else if ($this->input->post('customerBaru') != NULL) {
+    } else if ($this->input->post('customerBaru') != NULL) {
 
       if ($this->input->post('status') == "customer") {
         $codeCus = $this->input->post('codeCustomerBaru');

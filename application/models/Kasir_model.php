@@ -117,4 +117,44 @@ class Kasir_model extends CI_Model
       ->get()
       ->row_array();
   }
+
+  public function getCustomerLangganan(){
+    return $this->db
+    ->where('status', 'customer')
+    ->get('customer')->result_array();
+  }
+
+  public function getTransaksiCustomerLeger($tanggal, $code)
+  {
+    return $this->db
+      ->from('penjualan as p')
+      ->join('customer as c', 'p.code = c.code')
+      ->where('p.code', $code)
+      ->like('tanggal', $tanggal)
+      ->get()
+      ->result_array();
+  }
+
+  public function getSubtotalLeger($tanggal, $code)
+  {
+    return $this->db
+      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran')
+      ->from('penjualan')
+      ->where('code', $code)
+      ->like('tanggal', $tanggal)
+      ->get()
+      ->row_array();
+  }
+
+  public function getDetailCustomer($code, $tanggal)
+  {
+    return $this->db->select('c.code, nama_customer, id_rekening, tanggal, saldo_awal, saldo_akhir')
+      ->from('customer as c')
+      ->join('detail_rekening as d', 'c.code = d.code')
+      ->where('d.code', $code)
+      ->like('tanggal', $tanggal)
+      ->get()
+      ->row_array();
+  }
+
 }
