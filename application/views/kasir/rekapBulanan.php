@@ -14,17 +14,21 @@
   </div>
   <div class="card shadow-sm">
     <div class="card-body">
-    <form action="" class="row g-3">
+      <form action="<?= base_url() ?>/kasir/rekapBulanan" method="POST" class="row g-3">
         <div class="col-md-3">
-        <h5>Bulan Ini : <?= date("M Y"); ?></h5>
+          <?php if (isset($_POST['update'])) : ?>
+            <h5>Bulan terpilih : <?= $bulan; ?></h5>
+          <?php else : ?>
+            <h5>Bulan Ini : <?= date("M Y"); ?></h5>
+          <?php endif; ?>
         </div>
         <div class="col-md-9 row">
           <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-5">
-            <input type="month" class="form-control">
+            <input type="month" class="form-control" name="bulan">
           </div>
           <div class="col-md-2">
-            <button class="btn btn-primary">Cek &downdownarrows;</button>
+            <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
           </div>
         </div>
       </form>
@@ -57,47 +61,42 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td align="center">1.</td>
-            <td>Budi Setiawan</td>
-            <td align="center">C1</td>
-            <td align="center">5</td>
-            <td align="center">5,1</td>
-            <td align="center">21.000</td>
-            <td align="center">107.100</td>
-            <td align="center">-</td>
-            <td align="center">107.100</td>
-            <td align="center">107.100</td>
-            <td align="center">- 102.000</td>
-            <td align="center">- 234.000</td>
-          </tr>
-          <tr>
-            <td align="center">2.</td>
-            <td>Rahul Subagio</td>
-            <td align="center">C2</td>
-            <td align="center">4</td>
-            <td align="center">5,1</td>
-            <td align="center">21.000</td>
-            <td align="center">107.100</td>
-            <td align="center">-</td>
-            <td align="center">107.100</td>
-            <td align="center">107.100</td>
-            <td align="center">- 102.000</td>
-            <td align="center">- 234.000</td>
-          </tr>
+          <?php
+          $i = 1;
+          foreach ($customer as $c) :
+            $code = $c['code'];
+          ?>
+            <tr>
+              <td align="center"><?= $i; ?>.</td>
+              <td><?= $c['nama_customer']; ?></td>
+              <td align="center"><?= $c['code']; ?></td>
+              <td align="center"><?= $c['ekor']; ?></td>
+              <td align="center"><?= number_format($c['kg'], 1, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['harga'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['jumlah'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['a'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['total'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['pembayaran'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['saldo_awal'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($c['saldo_akhir'], 0, ",", "."); ?></td>
+            </tr>
+          <?php
+            $i++;
+          endforeach;
+          ?>
         </tbody>
         <tfoot class="table-light">
           <tr>
             <td colspan="3">Subtotal</td>
-            <td align="center">116</td>
-            <td align="center">122,6</td>
-            <td align="center">22.609</td>
-            <td align="center">2.777.570</td>
-            <td align="center">333</td>
-            <td align="center">2.767.570</td>
-            <td align="center">3.034.920</td>
-            <td align="center">- 1.034.920</td>
-            <td align="center">2.034.920</td>
+            <td align="center"><?= $subtotal['ekor']; ?></td>
+            <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['jumlah'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['a'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['total'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['pembayaran'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['saldo_awal'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['saldo_akhir'], 0, ",", "."); ?></td>
           </tr>
         </tfoot>
       </table>

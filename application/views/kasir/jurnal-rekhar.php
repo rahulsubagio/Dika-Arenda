@@ -67,14 +67,8 @@
           <?php
           if (isset($transaksi)) :
             $i = 1;
-            $subJumlah = 0;
           ?>
-            <?php foreach ($transaksi as $t) :
-              $harga = intval($t['harga']);
-              $kg = floatval($t['kg']);
-              $jumlah = $harga * $kg;
-              $subJumlah = $subJumlah + $jumlah;
-            ?>
+            <?php foreach ($transaksi as $t) :?>
               <tr>
                 <td align="center"><?= $i; ?>.<?php $i++; ?></td>
                 <td><?= $t['nama_customer']; ?></td>
@@ -82,7 +76,7 @@
                 <td align="center"><?= $t['ekor']; ?></td>
                 <td align="center"><?= number_format($t['kg'], 1, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['harga'], 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($jumlah, 0, ",", "."); ?></td>
+                <td align="center"><?= number_format($t['jumlah'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['a_kompensasi'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['total'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['pembayaran'], 0, ",", "."); ?></td>
@@ -102,8 +96,8 @@
             <td colspan="3">Subtotal</td>
             <td align="center"><?= $subtotal['ekor']; ?></td>
             <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
-            <td align="center"><?= number_format($subtotal['harga'], 3, ",", "."); ?></td>
-            <td align="center"><?= number_format($subJumlah, 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['jumlah'], 0, ",", "."); ?></td>
             <?php
             if ($subtotal['a'] == NULL) {
               $a = 0;

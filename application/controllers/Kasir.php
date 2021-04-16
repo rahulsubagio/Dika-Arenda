@@ -101,9 +101,21 @@ class Kasir extends CI_Controller
   {
     $this->session->set_flashdata('rekbul', 'active');
 
+    if(isset($_POST['update'])){
+      $bulan = $this->input->post('bulan');
+      $dataBulan = strtotime($bulan);
+      $bulannya = date("M Y", $dataBulan);
+      $data['bulan'] = $bulannya;
+    } else{
+      $bulan = date("Y-m");
+      $data['bulan'] = $bulan;
+    }
+    $data['customer'] = $this->Kasir_model->getTransaksiBulanan($bulan);
+    $data['subtotal'] = $this->Kasir_model->getTotalBulanan($bulan);
+
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/rekapBulanan');
+    $this->load->view('kasir/rekapBulanan', $data);
     $this->load->view('templates/footer');
   }
 

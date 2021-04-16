@@ -78,6 +78,7 @@ class Kasir_model extends CI_Model
   public function getTransaksi($tanggal)
   {
     return $this->db
+      ->select('c.code, nama_customer, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->like('tanggal', $tanggal)
@@ -88,7 +89,7 @@ class Kasir_model extends CI_Model
   public function getSubtotalJurnal($tanggal)
   {
     return $this->db
-      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran')
+      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah , AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran')
       ->from('penjualan')
       ->like('tanggal', $tanggal)
       ->get()
@@ -98,6 +99,7 @@ class Kasir_model extends CI_Model
   public function getTransaksiCustomer($tanggal)
   {
     return $this->db
+      ->select('c.code, nama_customer, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->where('status', 'customer')
@@ -109,7 +111,7 @@ class Kasir_model extends CI_Model
   public function getSubtotalRekap($tanggal)
   {
     return $this->db
-      ->select('SUM(ekor) as ekor, SUM(p.kg) as kg, AVG(NULLIF(harga, 0)) as harga, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran')
+      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah , AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->where('status', 'customer')
@@ -118,15 +120,17 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
-  public function getCustomerLangganan(){
+  public function getCustomerLangganan()
+  {
     return $this->db
-    ->where('status', 'customer')
-    ->get('customer')->result_array();
+      ->where('status', 'customer')
+      ->get('customer')->result_array();
   }
 
   public function getTransaksiCustomerLeger($tanggal, $code)
   {
     return $this->db
+      ->select('tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi as a, total, pembayaran, (pembayaran-total) as saldo')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->where('p.code', $code)
@@ -138,7 +142,7 @@ class Kasir_model extends CI_Model
   public function getSubtotalLeger($tanggal, $code)
   {
     return $this->db
-      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran')
+      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran, SUM(pembayaran-total) as saldo')
       ->from('penjualan')
       ->where('code', $code)
       ->like('tanggal', $tanggal)
@@ -157,4 +161,33 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
+  public function getTransaksiBulanan($bulan)
+  {
+    return $this->db
+      ->select('c.code, nama_customer, SUM(NULLIF(ekor, 0)) as ekor, SUM(NULLIF(kg, 0)) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(NULLIF(total, 0)) as total, SUM(NULLIF(pembayaran, 0)) as pembayaran, saldo_awal, saldo_akhir')
+      ->from('customer as c')
+      ->join('penjualan as p', 'c.code = p.code', 'LEFT')
+      ->join('detail_rekening as d', 'c.code = d.code', 'LEFT')
+      ->where('status', 'customer')
+      ->like('p.tanggal', $bulan)
+      ->like('d.tanggal', $bulan)
+      ->group_by('c.code')
+      ->order_by('c.code', 'ASC')
+      ->get()
+      ->result_array();
+  }
+
+  public function getTotalBulanan($bulan)
+  {
+    return $this->db
+      ->select('SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran, SUM(saldo_awal) as saldo_awal, SUM(saldo_akhir) as saldo_akhir')
+      ->from('customer as c')
+      ->join('penjualan as p', 'c.code = p.code', 'LEFT')
+      ->join('detail_rekening as d', 'c.code = d.code')
+      ->where('status', 'customer')
+      ->like('p.tanggal', $bulan)
+      ->like('d.tanggal', $bulan)
+      ->get()
+      ->row_array();
+  }
 }

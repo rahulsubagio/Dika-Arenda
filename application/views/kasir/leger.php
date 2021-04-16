@@ -93,15 +93,13 @@
           <?php
           if (isset($_POST['update'])) :
             $i = 1;
-            $subSaldo = 0;
             foreach ($transaksi as $t) :
               $kg = floatval($t['kg']);
               $harga = intval($t['harga']);
               $jumlah = $kg * $harga;
               $total = intval($t['total']);
               $pembayaran = intval($t['pembayaran']);
-              $subSaldo = $subSaldo + $pembayaran - $total;
-              $saldo = $pembayaran - $total;
+              
               $dataTgl = strtotime($t['tanggal']);
               $tgl = date("d-m-Y", $dataTgl);
           ?>
@@ -111,11 +109,11 @@
                 <td align="center"><?= $t['ekor']; ?></td>
                 <td align="center"><?= number_format($t['kg'], 1, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['harga'], 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($jumlah, 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($t['a_kompensasi'], 0, ",", "."); ?></td>
+                <td align="center"><?= number_format($t['jumlah'], 0, ",", "."); ?></td>
+                <td align="center"><?= number_format($t['a'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['total'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($t['pembayaran'], 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($saldo, 0, ",", "."); ?></td>
+                <td align="center"><?= number_format($t['saldo'], 0, ",", "."); ?></td>
               </tr>
           <?php
               $i++;
@@ -127,13 +125,13 @@
           <?php
           if (isset($_POST['update'])) {
             $ekor = $subtotal['ekor'];
-            $kg = floatval($subtotal['kg']);
-            $harga = intval($subtotal['harga']);
-            $subJumlah = $kg * $harga;
+            $kg = $subtotal['kg'];
+            $harga = $subtotal['harga'];
+            $subJumlah = $subtotal['jumlah'];
             $a = $subtotal['a'];
             $total = $subtotal['total'];
             $pembayaran = $subtotal['pembayaran'];
-            
+            $subSaldo = $subtotal['saldo'];
           } else {
             $ekor = 0;
             $kg = 0;
@@ -150,7 +148,7 @@
             <td colspan="2">Subtotal</td>
             <td align="center"><?= $ekor; ?></td>
             <td align="center"><?= number_format($kg, 1, ",", "."); ?></td>
-            <td align="center"><?= number_format($harga, 3, ",", "."); ?></td>
+            <td align="center"><?= number_format($harga, 0, ",", "."); ?></td>
             <td align="center"><?= number_format($subJumlah, 0, ",", "."); ?></td>
             <?php
             if ($a == NULL) {
