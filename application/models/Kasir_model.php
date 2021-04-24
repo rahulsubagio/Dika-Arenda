@@ -78,12 +78,26 @@ class Kasir_model extends CI_Model
   public function getTransaksi($tanggal)
   {
     return $this->db
-      ->select('c.code, nama_customer, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+      ->select('c.code, nama_customer, id_penjualan, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->like('tanggal', $tanggal)
       ->get()
       ->result_array();
+  }
+
+  public function getTransaksiById($id){
+    return $this->db
+    ->select('c.code, nama_customer, id_penjualan, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+    ->from('penjualan as p')
+    ->join('customer as c', 'p.code = c.code')
+    ->where('id_penjualan', $id)
+    ->get()
+    ->row_array();
+  }
+
+  public function updateTransaksi($id, $data){
+    $this->db->where('id_penjualan', $id)->update('penjualan', $data);
   }
 
   public function getSubtotalJurnal($tanggal)
@@ -165,11 +179,11 @@ class Kasir_model extends CI_Model
   {
     return $this->db
       ->select('c.code, nama_customer, SUM(NULLIF(ekor, 0)) as ekor, SUM(NULLIF(kg, 0)) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(NULLIF(total, 0)) as total, SUM(NULLIF(pembayaran, 0)) as pembayaran, saldo_awal, saldo_akhir')
-      ->from('customer as c')
-      ->join('penjualan as p', 'c.code = p.code', 'LEFT')
+      ->from('penjualan as p')
+      ->join('customer as c', 'p.code = c.code', 'RIGHT')
       ->join('detail_rekening as d', 'c.code = d.code', 'LEFT')
       ->where('status', 'customer')
-      ->like('p.tanggal', $bulan)
+      ->or_like('p.tanggal', $bulan)
       ->like('d.tanggal', $bulan)
       ->group_by('c.code')
       ->order_by('c.code', 'ASC')
