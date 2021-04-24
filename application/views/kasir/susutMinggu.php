@@ -14,17 +14,21 @@
   </div>
   <div class="card shadow-sm">
     <div class="card-body">
-      <form action="" class="row g-3">
+      <form action="<?= base_url() ?>/kasir/penyusutanMingguan" method="POST" class="row g-3">
         <div class="col-md-3">
-          <h5>Bulan Ini : <?= date("M Y"); ?></h5>
+          <?php if (isset($_POST['update'])) : ?>
+            <h5>Minggu terpilih : <?= $minggu; ?></h5>
+          <?php else : ?>
+            <h5>Minggu Ini : <?= $minggu; ?></h5>
+          <?php endif; ?>
         </div>
         <div class="col-md-9 row">
           <label class="col-form-label col-md-2">Pilih Minggu</label>
           <div class="col-md-5">
-            <input type="week" class="form-control">
+            <input type="week" class="form-control" name="minggu">
           </div>
           <div class="col-md-2">
-            <button class="btn btn-primary">Cek &downdownarrows;</button>
+            <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
           </div>
         </div>
       </form>
@@ -167,47 +171,71 @@
           <form action="">
             <table align="center" class="table">
               <tr>
-                <td>Code Customer</td>
+                <td>Pilih Tanggal</td>
                 <td>
-                  <select name="" id="">
-                    <option value="">Pilih Code - Nama</option>
-                    <option value="">C12 - Rahul Subagio</option>
-                  </select>
+                  <input type="date" name="tanggal"/>
                 </td>
               </tr>
               <tr align="center" class="table-dark">
-                <td colspan="2">Transaksi Pembelian</td>
+                <td colspan="2">Ayam Mati</td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Mati Kandang</td>
               </tr>
               <tr>
-                <td>Jumlah (Ekor)</td>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)"></td>
+                <td>Jumlah (ekor)</td>
+                <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td>Berat (Kg)</td>
-                <td><input type="text" placeholder="Berat total ayam (kg)"></td>
+                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="kandang_ekor"></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="kandang_kg"></td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Mati Armada</td>
               </tr>
               <tr>
-                <td>Harga (Rp.)</td>
-                <td><input type="text" placeholder="Harga ayam per kg"></td>
+                <td>Jumlah (ekor)</td>
+                <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td>Jumlah</td>
-                <td>Bagian JS buat perhitungan langsungnya (Harga * Kg)</td>
+                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="armada_ekor"></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="armada_kg"></td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Mati RPA</td>
               </tr>
               <tr>
-                <td>a</td>
-                <td><input type="text" placeholder="kompensasi per kg"></td>
+                <td>Jumlah (ekor)</td>
+                <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td>Total</td>
-                <td>Bagian JS buat perhitungan langsungnya (Jumlah - (a * Kg))</td>
+                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="rpa_ekor"></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="rpa_kg"></td>
               </tr>
               <tr align="center" class="table-dark">
-                <td colspan="2">Bagian Pembayaran</td>
+                <td colspan="2">Stock Ayam</td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Admin</td>
               </tr>
               <tr>
-                <td>Pembayaran (Rp.)</td>
-                <td><input type="text" placeholder="Pembayaran dalam rupiah"></td>
+                <td>Jumlah (ekor)</td>
+                <td>Jumlah (kg)</td>
+              </tr>
+              <tr>
+                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="admin_ekor"></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="admin_kg"></td>
+              </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Riil</td>
+              </tr>
+              <tr>
+                <td>Jumlah (ekor)</td>
+                <td>Jumlah (kg)</td>
+              </tr>
+              <tr>
+                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="riil_ekor"></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="riil_kg"></td>
               </tr>
             </table>
           </form>

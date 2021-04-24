@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 24 Apr 2021 pada 07.32
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.4.1
+-- Host: localhost
+-- Waktu pembuatan: 03 Apr 2021 pada 04.33
+-- Versi server: 10.4.13-MariaDB
+-- Versi PHP: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dika-arenda`
+-- Database: `Dika-Arenda`
 --
 
 -- --------------------------------------------------------
@@ -34,18 +33,6 @@ CREATE TABLE `customer` (
   `alamat` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `customer`
---
-
-INSERT INTO `customer` (`code`, `nama_customer`, `alamat`, `status`) VALUES
-('C1', 'Budi', 'Gaten', 'customer'),
-('C2', 'Siti', 'Puluhdadi', 'customer'),
-('C3', 'Gondrong', 'Giwangan', 'customer'),
-('C4', 'Sate', 'Mundu', 'customer'),
-('U1', 'Umum', 'btn', 'umum'),
-('U2', 'Marsih', 'Saren', 'umum');
 
 -- --------------------------------------------------------
 
@@ -92,16 +79,6 @@ CREATE TABLE `detail_rekening` (
   `saldo_awal` int(11) NOT NULL,
   `saldo_akhir` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `detail_rekening`
---
-
-INSERT INTO `detail_rekening` (`code`, `id_rekening`, `tanggal`, `saldo_awal`, `saldo_akhir`) VALUES
-('C1', 1, '2021-04-01', -1500000, 1563800),
-('C2', 2, '2021-04-01', 0, 0),
-('C3', 3, '2021-04-01', 0, -2160000),
-('C4', 6, '2021-04-01', 0, 4200);
 
 -- --------------------------------------------------------
 
@@ -178,18 +155,6 @@ CREATE TABLE `penjualan` (
   `pembayaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data untuk tabel `penjualan`
---
-
-INSERT INTO `penjualan` (`id_penjualan`, `code`, `tanggal`, `ekor`, `kg`, `harga`, `a_kompensasi`, `total`, `pembayaran`) VALUES
-(1, 'C2', '2021-04-09 00:00:00', 5, 5.1, 26000, 0, 132600, 132600),
-(2, 'C4', '2021-04-09 21:32:09', 10, 11, 21000, 0, 231000, 235200),
-(3, 'C1', '2021-04-09 22:15:52', 10, 11.2, 22000, 0, 246400, 0),
-(4, 'U1', '2021-04-10 09:01:13', 10, 11.8, 26000, 0, 306800, 306800),
-(5, 'C1', '2021-04-16 12:36:14', 7, 7.3, 26000, 0, 189800, 0),
-(6, 'U2', '2021-04-24 10:10:52', 30, 31.3, 25000, 0, 782500, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -226,16 +191,6 @@ CREATE TABLE `rekening` (
   `id_rekening` int(11) NOT NULL,
   `saldo_akhir` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `rekening`
---
-
-INSERT INTO `rekening` (`id_rekening`, `saldo_akhir`) VALUES
-(1, 1071000),
-(2, 0),
-(3, -2160000),
-(6, 4200);
 
 -- --------------------------------------------------------
 
@@ -411,7 +366,7 @@ ALTER TABLE `pegawai`
 -- AUTO_INCREMENT untuk tabel `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `penyusutan`
@@ -429,7 +384,7 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT untuk tabel `rekening`
 --
 ALTER TABLE `rekening`
-  MODIFY `id_rekening` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_rekening` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaksi`
