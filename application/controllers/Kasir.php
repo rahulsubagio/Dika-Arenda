@@ -297,14 +297,13 @@ class Kasir extends CI_Controller
     if (isset($_POST['update'])) {
       $code = $this->input->post('code');
       $cekCode = substr($code, 0, 1);
-      // $id = $this->input->post('id');
-      // if ($cekCode == 'C') {
-      //   ;
-      // }
+
       $kg = floatval($this->input->post('kg'));
       $harga = intval($this->input->post('harga'));
       $a = intval($this->input->post('a'));
       $total = ($kg * $harga) - ($a * $kg);
+      $pembayaran = intval($this->input->post('pembayaran'));
+
       $data = array(
         'id_penjualan' => $this->input->post('id'),
         'code' => $this->input->post('code'),
@@ -316,6 +315,31 @@ class Kasir extends CI_Controller
         'total' => $total,
         'pembayaran' => $this->input->post('pembayaran')
       );
+      if ($cekCode == 'C') {
+        $bulan = date('Y-m-01');
+        $transaksiLama = $this->Kasir_model->getTransaksiById($id);
+        $detailRekening = $this->Kasir_model->getDetailRekening($code, $bulan);
+        $rekening = $this->Kasir_model->getRekening($detailRekening['id_rekening']);
+
+        $hargaLama = intval($transaksiLama['harga']);
+        $kgLama = floatval($transaksiLama['kg']);
+        $aLama = intval($transaksiLama['a_kompensasi']);
+        $pembayaranLama = intval($transaksiLama['pembayaran']);
+
+        $saldoLama = (($hargaLama * $kgLama) - ($aLama * $kgLama)) * -1 + $pembayaranLama;
+        $saldoBaru = (($harga * $kg) - ($a * $kg)) * -1 + $pembayaran;
+
+        $saldoDetailRekening = intval($detailRekening['saldo_akhir']);
+        $saldoRekening = intval($rekening['saldo_akhir']);
+
+        $perubahanSaldoDetailRekening = $saldoDetailRekening - $saldoLama + $saldoBaru;
+        $perubahanSaldoRekening = $saldoRekening - $saldoLama + $saldoBaru;
+
+        var_dump($saldoLama . ' ' . $saldoBaru . ' ' . $perubahanSaldoDetailRekening . ' ' . $perubahanSaldoRekening);
+
+        $this->Kasir_model->updateDetailRekening($code, $bulan, $perubahanSaldoDetailRekening);
+        $this->Kasir_model->updateRekening($detailRekening['id_rekening'], $perubahanSaldoRekening);
+      }
       $this->Kasir_model->updateTransaksi($id, $data);
       redirect(base_url() . "kasir/jurnal");
     } else {
@@ -324,5 +348,40 @@ class Kasir extends CI_Controller
       $this->load->view('kasir/editPenjualan', $data);
       $this->load->view('templates/footer');
     }
+  }
+
+  public function deleteTransaksi($id)
+  {
+    //delete umum -> delete aja
+    // delete customer -> delete, detail_rekening, rekening
+
+    $transaksi = $this->Kasir_model->getTransaksiById($id);
+    $cekCode = substr($transaksi['code'], 0, 1);
+    if ($cekCode == 'C') {
+      $bulan = date('Y-m-01');
+      $transaksiLama = $this->Kasir_model->getTransaksiById($id);
+      $detailRekening = $this->Kasir_model->getDetailRekening($transaksi['code'], $bulan);
+      $rekening = $this->Kasir_model->getRekening($detailRekening['id_rekening']);
+
+      $hargaLama = intval($transaksiLama['harga']);
+      $kgLama = floatval($transaksiLama['kg']);
+      $aLama = intval($transaksiLama['a_kompensasi']);
+      $pembayaranLama = intval($transaksiLama['pembayaran']);
+
+      $saldoLama = (($hargaLama * $kgLama) - ($aLama * $kgLama)) * -1 + $pembayaranLama;
+
+      $saldoDetailRekening = intval($detailRekening['saldo_akhir']);
+      $saldoRekening = intval($rekening['saldo_akhir']);
+
+      $perubahanSaldoDetailRekening = $saldoDetailRekening - $saldoLama;
+      $perubahanSaldoRekening = $saldoRekening - $saldoLama;
+
+      // var_dump($saldoLama  . ' ' . $perubahanSaldoDetailRekening . ' ' .$saldoRekening.' '. $perubahanSaldoRekening);
+
+      $this->Kasir_model->updateDetailRekening($transaksi['code'], $bulan, $perubahanSaldoDetailRekening);
+      $this->Kasir_model->updateRekening($detailRekening['id_rekening'],$perubahanSaldoRekening);
+    }
+    $this->Kasir_model->deleteTransaksi($id);
+    redirect(base_url() . "kasir/jurnal");
   }
 }

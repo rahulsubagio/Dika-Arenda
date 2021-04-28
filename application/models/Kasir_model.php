@@ -100,6 +100,10 @@ class Kasir_model extends CI_Model
     $this->db->where('id_penjualan', $id)->update('penjualan', $data);
   }
 
+  public function deleteTransaksi($id){
+    $this->db->where('id_penjualan', $id)->delete('penjualan');
+  }
+
   public function getSubtotalJurnal($tanggal)
   {
     return $this->db
