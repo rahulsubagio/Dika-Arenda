@@ -43,6 +43,24 @@ class Kasir extends CI_Controller
       $this->session->set_flashdata('button', 'on');
     }
 
+    $tanggalSatu = date('Y-m-01');
+    $hitungDetailBaru = $this->Kasir_model->getDetailBaru($tanggalSatu);
+    if ($today == $tanggalSatu || $hitungDetailBaru == 0) {
+      $bulanLalu = date("Y-m", strtotime("first day of previous month"));
+      $customernya = $this->Kasir_model->getCustomerLangganan();
+      foreach ($customernya as $c) {
+        $dataCustomer = $this->Kasir_model->getDetailCustomer($c['code'], $bulanLalu);
+        $saldoAwal = $dataCustomer['saldo_akhir'];
+        $dataBaru = array(
+          'code' => $c['code'],
+          'id_rekening' => $dataCustomer['id_rekening'],
+          'tanggal' => $tanggalSatu,
+          'saldo_awal' => $saldoAwal,
+          'saldo_akhir' => $saldoAwal
+        );
+        $this->Kasir_model->tambahDetailRekening($dataBaru);
+      }
+    }
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');
     $this->load->view('kasir/jurnal-rekhar', $data);
@@ -123,9 +141,21 @@ class Kasir extends CI_Controller
   {
     $this->session->set_flashdata('rekjual', 'active');
 
+    if (isset($_POST['update'])) {
+      $bulan = $this->input->post('bulan');
+      $dataBulan = strtotime($bulan);
+      $bulannya = date("M Y", $dataBulan);
+      $data['bulan'] = $bulannya;
+    } else {
+      $today = date("Y-m");
+      $bulan = $today;
+    }
+    $data['rekap'] = $this->Kasir_model->getPenjualananBulanan($bulan);
+    $data['subtotal'] = $this->Kasir_model->getSubtotalPenjualananBulanan($bulan);
+
     $this->load->view('templates/navbar');
     $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/rekapJual');
+    $this->load->view('kasir/rekapJual', $data);
     $this->load->view('templates/footer');
   }
 
@@ -170,9 +200,8 @@ class Kasir extends CI_Controller
 
   public function tambahTransaksi()
   {
-    date_default_timezone_set("Asia/Jakarta");
     $tanggalSatu = date("Y-m-01");
-    $today = date("Y-m-d H:i:s");
+    $today = date("Y-m-d");
 
     if ($this->input->post('customer') != NULL) {
 
@@ -181,12 +210,8 @@ class Kasir extends CI_Controller
       $kg = floatval($this->input->post('kg'));
       $harga = intval($this->input->post('harga'));
       $a = intval($this->input->post('a'));
-      $total = $kg * $harga;
       $pembayaran = intval($this->input->post('pembayaran'));
-
-      if ($a > 0) {
-        $total = $a * $kg;
-      }
+      $total = ($kg * $harga) - ($a * $kg);
 
       $data = array(
         'code' => $code,
@@ -201,7 +226,7 @@ class Kasir extends CI_Controller
 
       $jenisCode = substr($code, 0, 1);
       if ($jenisCode == "C") {
-        $saldoTambahan = ($total * -1) + $pembayaran;
+        $saldoTambahan = $pembayaran - $total;
 
         $detailRekening = $this->Kasir_model->getDetailRekening($code, $tanggalSatu);
 
@@ -215,8 +240,6 @@ class Kasir extends CI_Controller
         $saldoAkhirBulanBaru = $saldoAkhirBulan + $saldoTambahan;
         $this->Kasir_model->updateDetailRekening($code, $tanggalSatu, $saldoAkhirBulanBaru);
       }
-
-      $this->Kasir_model->tambahTransaksi($data);
     } else if ($this->input->post('customerBaru') != NULL) {
 
       if ($this->input->post('status') == "customer") {
@@ -237,12 +260,9 @@ class Kasir extends CI_Controller
       $kg = floatval($this->input->post('kg'));
       $harga = intval($this->input->post('harga'));
       $a = intval($this->input->post('a'));
-      $total = $kg * $harga;
+      
       $pembayaran = intval($this->input->post('pembayaran'));
-
-      if ($a > 0) {
-        $total = $a * $kg;
-      }
+      $total = ($kg * $harga) - ($a * $ekor);
 
       $data = array(
         'code' => $codeCus,
@@ -256,7 +276,7 @@ class Kasir extends CI_Controller
       );
 
       if ($this->input->post('status') == "customer") {
-        $saldo = ($total * -1) + $pembayaran;
+        $saldo = $pembayaran - $total;
         $rekeningnya = array(
           'id_rekening' => "NULL",
           'saldo_akhir' => $saldo
@@ -275,9 +295,10 @@ class Kasir extends CI_Controller
         );
         $this->Kasir_model->tambahDetailRekening($detail);
       }
-
-      $this->Kasir_model->tambahTransaksi($data);
     }
+
+
+    $this->Kasir_model->tambahTransaksi($data);
 
     // $this->Post_model->tambahPost($data);
     // $this->session->set_flashdata('notif', 'ditambahkan');
@@ -368,7 +389,7 @@ class Kasir extends CI_Controller
       $aLama = intval($transaksiLama['a_kompensasi']);
       $pembayaranLama = intval($transaksiLama['pembayaran']);
 
-      $saldoLama = (($hargaLama * $kgLama) - ($aLama * $kgLama)) * -1 + $pembayaranLama;
+      $saldoLama = $pembayaranLama - (($hargaLama * $kgLama) - ($aLama * $kgLama));
 
       $saldoDetailRekening = intval($detailRekening['saldo_akhir']);
       $saldoRekening = intval($rekening['saldo_akhir']);
@@ -379,7 +400,7 @@ class Kasir extends CI_Controller
       // var_dump($saldoLama  . ' ' . $perubahanSaldoDetailRekening . ' ' .$saldoRekening.' '. $perubahanSaldoRekening);
 
       $this->Kasir_model->updateDetailRekening($transaksi['code'], $bulan, $perubahanSaldoDetailRekening);
-      $this->Kasir_model->updateRekening($detailRekening['id_rekening'],$perubahanSaldoRekening);
+      $this->Kasir_model->updateRekening($detailRekening['id_rekening'], $perubahanSaldoRekening);
     }
     $this->Kasir_model->deleteTransaksi($id);
     redirect(base_url() . "kasir/jurnal");

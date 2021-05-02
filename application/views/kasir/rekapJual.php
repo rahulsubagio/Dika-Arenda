@@ -15,17 +15,21 @@
 
   <div class="card shadow-sm">
     <div class="card-body">
-      <form action="" class="row g-3">
+      <form action="<?= base_url() ?>/kasir/rekapPenjualan" class="row g-3" method="POST">
         <div class="col-md-3">
-          <h5>Bulan Ini : <?= date("M Y"); ?></h5>
+          <?php if (isset($_POST['update'])) : ?>
+            <h5>Bulan terpilih : <?= $bulan; ?></h5>
+          <?php else : ?>
+            <h5>Bulan Ini : <?= date("M Y"); ?></h5>
+          <?php endif; ?>
         </div>
         <div class="col-md-9 row">
           <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-5">
-            <input type="month" class="form-control">
+            <input type="month" class="form-control" name="bulan">
           </div>
           <div class="col-md-2">
-            <button class="btn btn-primary">Cek &downdownarrows;</button>
+            <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
           </div>
         </div>
       </form>
@@ -55,42 +59,35 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td align="center">1.</td>
-            <td>01/03/2021</td>
-            <td align="center">921</td>
-            <td align="center">935,1</td>
-            <td align="center">22.432</td>
-            <td align="center">2.107.100</td>
-            <td align="center">-</td>
-            <td align="center">2.107.100</td>
-            <td align="center">1.807.100</td>
-            <td align="center">-200.000</td>
-          </tr>
-          <tr>
-            <td align="center">2.</td>
-            <td>04/03/2021</td>
-            <td align="center">5</td>
-            <td align="center">5,1</td>
-            <td align="center">21.000</td>
-            <td align="center">107.100</td>
-            <td align="center">-</td>
-            <td align="center">107.100</td>
-            <td align="center">107.100</td>
-            <td align="center">-102.000</td>
-          </tr>
+          <?php $i = 1;
+          foreach ($rekap as $r) : ?>
+            <tr>
+              <td align="center"><?= $i; ?></td>
+              <td><?= $r['tanggal']; ?></td>
+              <td align="center"><?= $r['ekor']; ?></td>
+              <td align="center"><?= number_format($r['kg'], 1, ",", "."); ?></td>
+              <td align="center"><?= number_format($r['harga'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($r['jumlah'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($r['a'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($r['total'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($r['pembayaran'], 0, ",", "."); ?></td>
+              <td align="center"><?= number_format($r['neraca'], 0, ",", "."); ?></td>
+            </tr>
+          <?php $i++;
+          endforeach;
+          ?>
         </tbody>
         <tfoot class="table-light">
           <tr>
             <td colspan="2">Subtotal</td>
-            <td align="center">116</td>
-            <td align="center">122,6</td>
-            <td align="center">22.609</td>
-            <td align="center">2.777.570</td>
-            <td align="center">333</td>
-            <td align="center">2.767.570</td>
-            <td align="center">3.034.920</td>
-            <td align="center">Rp -234.000</td>
+            <td align="center"><?= $subtotal['ekor']; ?></td>
+            <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['jumlah'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['a'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['total'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['pembayaran'], 0, ",", "."); ?></td>
+            <td align="center"><?= number_format($subtotal['neraca'], 0, ",", "."); ?></td>
           </tr>
         </tfoot>
       </table>

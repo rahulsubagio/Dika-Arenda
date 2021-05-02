@@ -97,12 +97,7 @@
                 <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
                 <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($subtotal['jumlah'], 0, ",", "."); ?></td>
-                <?php
-                if ($subtotal['a'] == NULL) {
-                  $a = 0;
-                }
-                ?>
-                <td align="center"><?= number_format($a, 2, ",", "."); ?></td>
+                <td align="center"><?= number_format($subtotal['a'], 2, ",", "."); ?></td>
                 <td align="center"><?= number_format($subtotal['total'], 0, ",", "."); ?></td>
                 <td align="center"><?= number_format($subtotal['pembayaran'], 0, ",", "."); ?></td>
                 <?php if ($this->session->flashdata('button') == "on") : ?>
