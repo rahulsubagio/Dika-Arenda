@@ -83,7 +83,7 @@
                     <?php if ($this->session->flashdata('button') == "on") : ?>
                       <td align="center">
                         <a href="<?= base_url(); ?>kasir/editTransaksi/<?= $t['id_penjualan']; ?>" class="btn btn-primary btn-sm">Ubah</a>
-                        <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus transaksi tersebut?')">Hapus</a>
+                        <a href="<?= base_url(); ?>kasir/deleteTransaksi/<?= $t['id_penjualan']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus transaksi tersebut?')">Hapus</a>
                       </td>
                     <?php endif; ?>
                   </tr>
@@ -207,7 +207,6 @@
               </tr>
               <tr>
                 <td>Total</td>
-                <td>
                 <td>
                   <fieldset disabled="disabled">
                     <input type="number" value="">
