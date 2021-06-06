@@ -2,14 +2,7 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 text-secondary"><?= $this->session->flashdata('judul'); ?></h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-      </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-      </button>
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalKandang">Kandang +</button>
     </div>
   </div>
   <div class="card shadow-sm">
@@ -182,6 +175,43 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Kandang -->
+  <div class="modal fade" id="modalKandang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="<?= base_url('marketing/tambahKandang') ?>" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Tambah Kandang</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-2 align-items-center">
+              <div class="col-2">
+                <label for="" class="col-form-label">Nama</label>
+              </div>
+              <div class="col-auto">
+                <input type="text" class="form-control" name="namaKandang">
+              </div>
+              <div class="w-100"></div>
+              <div class="col-2">
+                <label for="" class="col-form-label">No. Telp</label>
+              </div>
+              <div class="col-auto">
+                <input type="text" class="form-control" name="telpKandang">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="reset" value="Batal" class="btn btn-danger" data-bs-dismiss="modal">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Tutup Modal Kandang -->
+
 </main>
 
 <!-- Modal Edit -->

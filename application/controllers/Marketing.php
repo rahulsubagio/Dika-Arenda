@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Marketing extends CI_Controller
 {
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->model('Marketing_model');
+  }
+
   public function index()
   {
     $this->load->view('templates/navbar');
@@ -137,5 +143,17 @@ class Marketing extends CI_Controller
     $this->load->view('templates/marketing/sidebar');
     $this->load->view('marketing/penjualan/rekapMingguBulan');
     $this->load->view('templates/footer');
+  }
+
+  public function tambahKandang()
+  {
+    $nama   = $this->input->post('namaKandang');
+    $telp   = $this->input->post('telpKandang');
+    $data   = array(
+      'nama_pegawai'  => $nama,
+      'telp'          => $telp
+    );
+    $this->Marketing_model->tambahKandang($data);
+    redirect('/marketing/jurnalPembelian');
   }
 }
