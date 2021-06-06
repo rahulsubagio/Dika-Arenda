@@ -25,31 +25,31 @@
                     <div class="collapse <?= $this->session->flashdata('kasirJual'); ?>" id="penjualan-collapse">
                       <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="<?= base_url('pimpinan/jurnal') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="<?= base_url('pimpinan/jurnalKasir') ?>">
                             <span data-feather="home"></span>
                             Jurnal
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/leger') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/legerKasir') ?>">
                             <span data-feather="file"></span>
                             Leger
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="<?= base_url('pimpinan/rekapHarian') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="<?= base_url('pimpinan/rekapHarianKasir') ?>">
                             <span data-feather="shopping-cart"></span>
                             Rekap Harian
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href="<?= base_url('pimpinan/rekapBulanan') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href="<?= base_url('pimpinan/rekapBulananKasir') ?>">
                             <span data-feather="users"></span>
                             Rekap Bulanan
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('rekjual'); ?>" href="<?= base_url('pimpinan/rekapPenjualan') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('rekjual'); ?>" href="<?= base_url('pimpinan/rekapPenjualanKasir') ?>">
                             <span data-feather="bar-chart-2"></span>
                             Rekap Penjualan
                           </a>
@@ -67,13 +67,13 @@
                     <div class="collapse <?= $this->session->flashdata('kasirSusut'); ?>" id="penyusutan-collapse">
                       <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('pimpinan/penyusutanMingguan') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('pimpinan/penyusutanMingguanKasir') ?>">
                             <span data-feather="home"></span>
                             Rekap Mingguan
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('pimpinan/penyusutanBulanan') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('pimpinan/penyusutanBulananKasir') ?>">
                             <span data-feather="file"></span>
                             Rekap Bulanan
                           </a>

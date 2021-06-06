@@ -176,6 +176,17 @@
                   <input type="date" name="tanggal" required/>
                 </td>
               </tr>
+              <tr align="center" class="table-primary">
+                <td colspan="2">Ayam Masuk</td>
+              </tr>
+              <tr>
+                <td>Jumlah (ekor)</td>
+                <td>Jumlah (kg)</td>
+              </tr>
+              <tr>
+                <td><input type="number" placeholder="Jumlah ayam (ekor)" name="ayam_masuk_ekor" min="0" required></td>
+                <td><input type="number" placeholder="Jumlah ayam (kg)" name="ayam_masuk_kg" min="0" required></td>
+              </tr>
               <tr align="center" class="table-dark">
                 <td colspan="2">Ayam Mati</td>
               </tr>
