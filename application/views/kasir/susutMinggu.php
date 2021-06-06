@@ -164,16 +164,16 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Penambahan Transaksi Baru</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Penambahan Penyusutan Baru</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="">
+          <form action="<?= base_url() ?>kasir/tambahDetailSusut" method="POST">
             <table align="center" class="table">
               <tr>
                 <td>Pilih Tanggal</td>
                 <td>
-                  <input type="date" name="tanggal"/>
+                  <input type="date" name="tanggal" required/>
                 </td>
               </tr>
               <tr align="center" class="table-dark">
@@ -187,8 +187,8 @@
                 <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="kandang_ekor"></td>
-                <td><input type="text" placeholder="Jumlah ayam (kg)" name="kandang_kg"></td>
+                <td><input type="number" placeholder="Jumlah ayam (ekor)" name="kandang_ekor" min="0" required></td>
+                <td><input type="number" placeholder="Jumlah ayam (kg)" name="kandang_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-primary">
                 <td colspan="2">Mati Armada</td>
@@ -198,8 +198,8 @@
                 <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="armada_ekor"></td>
-                <td><input type="text" placeholder="Jumlah ayam (kg)" name="armada_kg"></td>
+                <td><input type="number" placeholder="Jumlah ayam (ekor)" name="armada_ekor" min="0" required></td>
+                <td><input type="number" placeholder="Jumlah ayam (kg)" name="armada_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-primary">
                 <td colspan="2">Mati RPA</td>
@@ -209,8 +209,8 @@
                 <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="rpa_ekor"></td>
-                <td><input type="text" placeholder="Jumlah ayam (kg)" name="rpa_kg"></td>
+                <td><input type="number" placeholder="Jumlah ayam (ekor)" name="rpa_ekor" min="0" required></td>
+                <td><input type="number" placeholder="Jumlah ayam (kg)" name="rpa_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-dark">
                 <td colspan="2">Stock Ayam</td>
@@ -223,8 +223,8 @@
                 <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="admin_ekor"></td>
-                <td><input type="text" placeholder="Jumlah ayam (kg)" name="admin_kg"></td>
+                <td><input type="number" placeholder="Jumlah ayam (ekor)" name="admin_ekor" min="0" required></td>
+                <td><input type="number" placeholder="Jumlah ayam (kg)" name="admin_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-primary">
                 <td colspan="2">Riil</td>
@@ -234,8 +234,8 @@
                 <td>Jumlah (kg)</td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="Jumlah ayam (ekor)" name="riil_ekor"></td>
-                <td><input type="text" placeholder="Jumlah ayam (kg)" name="riil_kg"></td>
+                <td><input type="number" placeholder="Jumlah ayam (ekor)" name="riil_ekor" min="0" required></td>
+                <td><input type="number" placeholder="Jumlah ayam (kg)" name="riil_kg" min="0" required></td>
               </tr>
             </table>
           </form>
