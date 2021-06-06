@@ -29,12 +29,24 @@ class Kasir extends CI_Controller
   {
     $this->session->set_flashdata('jurnal', 'active');
     $this->session->set_flashdata('judul', 'Jurnal Transaksi');
+    $this->session->set_flashdata('base', 'kasir');
 
     $data['customer'] = $this->Kasir_model->getCustomer();
     $countC = $this->Kasir_model->countCustomer('customer') + 1;
     $countU = $this->Kasir_model->countCustomer('umum') + 1;
     $data['countCustomer'] = $countC;
     $data['countUmum'] = $countU;
+
+    $data = $this->loadJurnal();
+
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/jurnal-rekhar', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function loadJurnal()
+  {
     $tanggal = $this->input->post('tanggal');
     $today = date("Y-m-d");
 
@@ -49,16 +61,21 @@ class Kasir extends CI_Controller
       $data['hari'] = $today;
       $this->session->set_flashdata('button', 'on');
     }
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/jurnal-rekhar', $data);
-    $this->load->view('templates/footer');
+    return $data;
   }
 
   public function leger()
   {
     $this->session->set_flashdata('leger', 'active');
+    $data = $this->loadLeger();
+
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/leger', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function loadLeger(){
     $data['daftar_customer'] = $this->Kasir_model->getCustomerLangganan();
 
     if (isset($_POST['update'])) {
@@ -73,10 +90,7 @@ class Kasir extends CI_Controller
       $data['bulan'] = $bulannya;
     }
 
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/leger', $data);
-    $this->load->view('templates/footer');
+    return $data;
   }
 
   public function rekapHarian()
@@ -85,6 +99,15 @@ class Kasir extends CI_Controller
     $this->session->set_flashdata('judul', 'Rekapitulasi Transaksi Harian');
     $this->session->set_flashdata('button', 'off');
 
+    $data = $this->loadRekapHarian();
+
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/jurnal-rekhar', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function loadRekapHarian(){
     $tanggal = $this->input->post('tanggal');
     $today = date("Y-m-d");
 
@@ -97,17 +120,21 @@ class Kasir extends CI_Controller
       $data['subtotal'] = $this->Kasir_model->getSubtotalRekap($today);
       $data['hari'] = $today;
     }
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/jurnal-rekhar', $data);
-    $this->load->view('templates/footer');
+    return $data;
   }
 
   public function rekapBulanan()
   {
     $this->session->set_flashdata('rekbul', 'active');
+    $data = $this->loadRekapBulanan();
 
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/rekapBulanan', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function loadRekapBulanan(){
     if (isset($_POST['update'])) {
       $bulan = $this->input->post('bulan');
       $dataBulan = strtotime($bulan);
@@ -120,16 +147,21 @@ class Kasir extends CI_Controller
     $data['customer'] = $this->Kasir_model->getTransaksiBulanan($bulan);
     $data['subtotal'] = $this->Kasir_model->getTotalBulanan($bulan);
 
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/rekapBulanan', $data);
-    $this->load->view('templates/footer');
+    return $data;
   }
 
   public function rekapPenjualan()
   {
     $this->session->set_flashdata('rekjual', 'active');
+    $data = $this->loadRekapPenjualan();
 
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/rekapJual', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function loadRekapPenjualan(){
     if (isset($_POST['update'])) {
       $bulan = $this->input->post('bulan');
       $dataBulan = strtotime($bulan);
@@ -141,11 +173,8 @@ class Kasir extends CI_Controller
     }
     $data['rekap'] = $this->Kasir_model->getPenjualananBulanan($bulan);
     $data['subtotal'] = $this->Kasir_model->getSubtotalPenjualananBulanan($bulan);
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/rekapJual', $data);
-    $this->load->view('templates/footer');
+    
+    return $data;
   }
 
   public function penyusutanMingguan()
@@ -420,7 +449,7 @@ class Kasir extends CI_Controller
     $tanggal = $this->input->post('tanggal');
 
     $produknya = $this->kasir_model->getProduk($tanggal);
-    if($produknya == 0){
+    if ($produknya == 0) {
       $this->tambahProduk($tanggal);
     }
 
@@ -439,9 +468,7 @@ class Kasir extends CI_Controller
     $ekor = $kandang_ekor + $armada_ekor + $rpa_ekor;
     $kg = $kandang_kg + $armada_kg + $rpa_kg;
 
-    $data = array(
-
-    );
+    $data = array();
   }
 
   public function tambahProduk($tanggal)
@@ -456,7 +483,8 @@ class Kasir extends CI_Controller
     $this->kasir_model->tambahProdukSementara($data);
   }
 
-  public function tambahSusut($ekor, $kg, $persen){
+  public function tambahSusut($ekor, $kg, $persen)
+  {
     $data = array(
       'jumlah_ekor' => $ekor,
       'jumlah_kg' => $kg,
@@ -465,7 +493,7 @@ class Kasir extends CI_Controller
     $this->kasir_model->tambahSusut($data);
   }
 
-  public function hitungPersentase($tanggal){
-;
+  public function hitungPersentase($tanggal)
+  {;
   }
 }

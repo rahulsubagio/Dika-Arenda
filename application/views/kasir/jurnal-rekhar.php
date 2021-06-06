@@ -14,100 +14,108 @@
   </div>
   <div class="card shadow-sm">
     <div class="card-body">
-      <?php if ($this->session->flashdata('judul') == "Rekapitulasi Transaksi Harian") : ?>
-        <form action="<?= base_url() ?>/kasir/rekapHarian" method="POST" class="row g-3">
-        <?php else : ?>
-          <form action="<?= base_url() ?>/kasir/jurnal" method="POST" class="row g-3">
-          <?php endif; ?>
-          <div class="col-md-3">
-            <?php if (isset($_POST['update'])) : ?>
-              <h5>Hari terpilih : <?= date($hari); ?></h5>
-            <?php else : ?>
-              <h5>Hari Ini : <?= date("d M Y"); ?></h5>
+      <?php if ($this->session->flashdata('base') == "kasir") : ?>
+        <?php if ($this->session->flashdata('judul') == "Rekapitulasi Transaksi Harian") : ?>
+          <form action="<?= base_url() ?>/kasir/rekapHarian" method="POST" class="row g-3">
+          <?php else : ?>
+            <form action="<?= base_url() ?>/kasir/jurnal" method="POST" class="row g-3">
             <?php endif; ?>
-          </div>
-          <div class="col-md-9 row">
-            <label class="col-form-label col-md-2">Pilih Tanggal</label>
-            <div class="col-md-5">
-              <input type="date" class="form-control" name="tanggal">
-            </div>
-            <div class="col-md-2">
-              <button type="submit" class="btn btn-primary" name="update">Cek &downdownarrows;</button>
-            </div>
-          </div>
-          </form>
-          <br>
-          <table class="table table-hover">
-            <thead class="table-light">
-              <tr align="center">
-                <th rowspan="2">No.</th>
-                <th rowspan="2">Customer</th>
-                <th rowspan="2">Code</th>
-                <th colspan="2">Jumlah</th>
-                <th>Harga</th>
-                <th>Jumlah</th>
-                <th>a</th>
-                <th>Total</th>
-                <th>Pembayaran</th>
-                <?php if ($this->session->flashdata('button') == "on") : ?>
-                  <th rowspan="2"></th>
+          <?php else : ?>
+            <?php if ($this->session->flashdata('judul') == "Rekapitulasi Transaksi Harian") : ?>
+              <form action="<?= base_url() ?>/pimpinan/rekapHarianKasir" method="POST" class="row g-3">
+              <?php else : ?>
+                <form action="<?= base_url() ?>/pimpinan/jurnalKasir" method="POST" class="row g-3">
                 <?php endif; ?>
-              </tr>
-              <tr align="center">
-                <th>Ekor</th>
-                <th>Kg</th>
-                <th>Rp</th>
-                <th>Rp</th>
-                <th>Rp</th>
-                <th>Rp</th>
-                <th>Rp</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              if (isset($transaksi)) :
-                $i = 1;
-              ?>
-                <?php foreach ($transaksi as $t) : ?>
-                  <tr>
-                    <td align="center"><?= $i; ?>.<?php $i++; ?></td>
-                    <td><?= $t['nama_customer']; ?></td>
-                    <td align="center"><?= $t['code']; ?></td>
-                    <td align="center"><?= $t['ekor']; ?></td>
-                    <td align="center"><?= number_format($t['kg'], 1, ",", "."); ?></td>
-                    <td align="center"><?= number_format($t['harga'], 0, ",", "."); ?></td>
-                    <td align="center"><?= number_format($t['jumlah'], 0, ",", "."); ?></td>
-                    <td align="center"><?= number_format($t['a_kompensasi'], 0, ",", "."); ?></td>
-                    <td align="center"><?= number_format($t['total'], 0, ",", "."); ?></td>
-                    <td align="center"><?= number_format($t['pembayaran'], 0, ",", "."); ?></td>
-                    <?php if ($this->session->flashdata('button') == "on") : ?>
-                      <td align="center">
-                        <a href="<?= base_url(); ?>kasir/editTransaksi/<?= $t['id_penjualan']; ?>" class="btn btn-primary btn-sm">Ubah</a>
-                        <a href="<?= base_url(); ?>kasir/deleteTransaksi/<?= $t['id_penjualan']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus transaksi tersebut?')">Hapus</a>
-                      </td>
-                    <?php endif; ?>
-                  </tr>
-                <?php endforeach; ?>
               <?php endif; ?>
-            </tbody>
-            <tfoot class="table-light">
-              <tr>
-                <td colspan="3">Subtotal</td>
-                <td align="center"><?= $subtotal['ekor']; ?></td>
-                <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
-                <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($subtotal['jumlah'], 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($subtotal['a'], 2, ",", "."); ?></td>
-                <td align="center"><?= number_format($subtotal['total'], 0, ",", "."); ?></td>
-                <td align="center"><?= number_format($subtotal['pembayaran'], 0, ",", "."); ?></td>
-                <?php if ($this->session->flashdata('button') == "on") : ?>
-                  <td align="center">
-                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalTambah">Tambah</button>
-                  </td>
+              <div class="col-md-3">
+                <?php if (isset($_POST['update'])) : ?>
+                  <h5>Hari terpilih : <?= date($hari); ?></h5>
+                <?php else : ?>
+                  <h5>Hari Ini : <?= date("d M Y"); ?></h5>
                 <?php endif; ?>
-              </tr>
-            </tfoot>
-          </table>
+              </div>
+              <div class="col-md-9 row">
+                <label class="col-form-label col-md-2">Pilih Tanggal</label>
+                <div class="col-md-5">
+                  <input type="date" class="form-control" name="tanggal">
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" class="btn btn-primary" name="update">Cek &downdownarrows;</button>
+                </div>
+              </div>
+                </form>
+                <br>
+                <table class="table table-hover">
+                  <thead class="table-light">
+                    <tr align="center">
+                      <th rowspan="2">No.</th>
+                      <th rowspan="2">Customer</th>
+                      <th rowspan="2">Code</th>
+                      <th colspan="2">Jumlah</th>
+                      <th>Harga</th>
+                      <th>Jumlah</th>
+                      <th>a</th>
+                      <th>Total</th>
+                      <th>Pembayaran</th>
+                      <?php if ($this->session->flashdata('button') == "on") : ?>
+                        <th rowspan="2"></th>
+                      <?php endif; ?>
+                    </tr>
+                    <tr align="center">
+                      <th>Ekor</th>
+                      <th>Kg</th>
+                      <th>Rp</th>
+                      <th>Rp</th>
+                      <th>Rp</th>
+                      <th>Rp</th>
+                      <th>Rp</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    if (isset($transaksi)) :
+                      $i = 1;
+                    ?>
+                      <?php foreach ($transaksi as $t) : ?>
+                        <tr>
+                          <td align="center"><?= $i; ?>.<?php $i++; ?></td>
+                          <td><?= $t['nama_customer']; ?></td>
+                          <td align="center"><?= $t['code']; ?></td>
+                          <td align="center"><?= $t['ekor']; ?></td>
+                          <td align="center"><?= number_format($t['kg'], 1, ",", "."); ?></td>
+                          <td align="center"><?= number_format($t['harga'], 0, ",", "."); ?></td>
+                          <td align="center"><?= number_format($t['jumlah'], 0, ",", "."); ?></td>
+                          <td align="center"><?= number_format($t['a_kompensasi'], 0, ",", "."); ?></td>
+                          <td align="center"><?= number_format($t['total'], 0, ",", "."); ?></td>
+                          <td align="center"><?= number_format($t['pembayaran'], 0, ",", "."); ?></td>
+                          <?php if ($this->session->flashdata('button') == "on") : ?>
+                            <td align="center">
+                              <a href="<?= base_url(); ?>kasir/editTransaksi/<?= $t['id_penjualan']; ?>" class="btn btn-primary btn-sm">Ubah</a>
+                              <a href="<?= base_url(); ?>kasir/deleteTransaksi/<?= $t['id_penjualan']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus transaksi tersebut?')">Hapus</a>
+                            </td>
+                          <?php endif; ?>
+                        </tr>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </tbody>
+                  <tfoot class="table-light">
+                    <tr>
+                      <td colspan="3">Subtotal</td>
+                      <td align="center"><?= $subtotal['ekor']; ?></td>
+                      <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
+                      <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
+                      <td align="center"><?= number_format($subtotal['jumlah'], 0, ",", "."); ?></td>
+                      <td align="center"><?= number_format($subtotal['a'], 2, ",", "."); ?></td>
+                      <td align="center"><?= number_format($subtotal['total'], 0, ",", "."); ?></td>
+                      <td align="center"><?= number_format($subtotal['pembayaran'], 0, ",", "."); ?></td>
+                      <?php if ($this->session->flashdata('button') == "on") : ?>
+                        <td align="center">
+                          <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalTambah">Tambah</button>
+                        </td>
+                      <?php endif; ?>
+                    </tr>
+                  </tfoot>
+                </table>
     </div>
   </div>
 
