@@ -62,7 +62,8 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
-  public function getDetailBaru($tanggal){
+  public function getDetailBaru($tanggal)
+  {
     return $this->db
       ->where('tanggal', $tanggal)
       ->from('detail_rekening')
@@ -94,21 +95,24 @@ class Kasir_model extends CI_Model
       ->result_array();
   }
 
-  public function getTransaksiById($id){
+  public function getTransaksiById($id)
+  {
     return $this->db
-    ->select('c.code, nama_customer, id_penjualan, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
-    ->from('penjualan as p')
-    ->join('customer as c', 'p.code = c.code')
-    ->where('id_penjualan', $id)
-    ->get()
-    ->row_array();
+      ->select('c.code, nama_customer, id_penjualan, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+      ->from('penjualan as p')
+      ->join('customer as c', 'p.code = c.code')
+      ->where('id_penjualan', $id)
+      ->get()
+      ->row_array();
   }
 
-  public function updateTransaksi($id, $data){
+  public function updateTransaksi($id, $data)
+  {
     $this->db->where('id_penjualan', $id)->update('penjualan', $data);
   }
 
-  public function deleteTransaksi($id){
+  public function deleteTransaksi($id)
+  {
     $this->db->where('id_penjualan', $id)->delete('penjualan');
   }
 
@@ -219,24 +223,46 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
-  public function getPenjualananBulanan($tanggal){
+  public function getPenjualananBulanan($tanggal)
+  {
     return $this->db
-    ->select('tanggal, SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran, (SUM(pembayaran)-SUM(total)) as neraca')
-    ->from('penjualan')
-    ->like('tanggal', $tanggal)
-    ->group_by('tanggal')
-    ->order_by('tanggal')
-    ->get()
-    ->result_array();
+      ->select('tanggal, SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran, (SUM(pembayaran)-SUM(total)) as neraca')
+      ->from('penjualan')
+      ->like('tanggal', $tanggal)
+      ->group_by('tanggal')
+      ->order_by('tanggal')
+      ->get()
+      ->result_array();
   }
 
-  public function getSubtotalPenjualananBulanan($tanggal){
+  public function getSubtotalPenjualananBulanan($tanggal)
+  {
     return $this->db
-    ->select('tanggal, SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran, (SUM(pembayaran)-SUM(total)) as neraca')
-    ->from('penjualan')
-    ->like('tanggal', $tanggal)
-    ->get()
-    ->row_array();
+      ->select('tanggal, SUM(ekor) as ekor, SUM(kg) as kg, AVG(NULLIF(harga, 0)) as harga, SUM(kg*harga) as jumlah, AVG(NULLIF(a_kompensasi, 0)) as a, SUM(total) as total, SUM(pembayaran) as pembayaran, (SUM(pembayaran)-SUM(total)) as neraca')
+      ->from('penjualan')
+      ->like('tanggal', $tanggal)
+      ->get()
+      ->row_array();
   }
 
+  // PENYUSUTAN
+
+  public function tambahProdukSementara($data)
+  {
+    $this->db->insert('produk', $data);
+  }
+
+  public function getProduk($tanggal)
+  {
+    return $this->db
+      ->where('tanggal', $tanggal)
+      ->from('produk')
+      ->get()
+      ->num_rows();
+  }
+
+  public function tambahSusut($data)
+  {
+    $this->db->insert('penyusutan', $data);
+  }
 }
