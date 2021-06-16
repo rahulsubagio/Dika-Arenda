@@ -181,6 +181,15 @@ class Kasir extends CI_Controller
   {
     $this->session->set_flashdata('susutMinggu', 'active');
     $this->session->set_flashdata('button', 'on');
+    $data = $this->loadPenyusutanMingguan();
+
+    $this->load->view('templates/navbar');
+    $this->load->view('templates/kasir/sidebar');
+    $this->load->view('kasir/susutMinggu', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function loadPenyusutanMingguan(){
     if (isset($_POST['update'])) {
       $minggu = $this->input->post('minggu');
       $year = substr($minggu, 0, 4);
@@ -199,11 +208,12 @@ class Kasir extends CI_Controller
       $minggu = $date1 . " - " . $date2;
       $data['minggu'] = $minggu;
     }
+    $tanggal1 = date("Y-m-d", strtotime($date1));
+    $tanggal2 = date("Y-m-d", strtotime($date2));
 
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/kasir/sidebar');
-    $this->load->view('kasir/susutMinggu', $data);
-    $this->load->view('templates/footer');
+    $data['susut'] = $this->Kasir_model->getSusutSeminggu($tanggal1, $tanggal2);
+    
+    return $data;
   }
 
   public function penyusutanBulanan()
@@ -360,12 +370,13 @@ class Kasir extends CI_Controller
         $detailRekening = $this->Kasir_model->getDetailRekening($code, $bulan);
         $rekening = $this->Kasir_model->getRekening($detailRekening['id_rekening']);
 
-        $hargaLama = intval($transaksiLama['harga']);
-        $kgLama = floatval($transaksiLama['kg']);
-        $aLama = intval($transaksiLama['a_kompensasi']);
+        // $hargaLama = intval($transaksiLama['harga']);
+        // $kgLama = floatval($transaksiLama['kg']);
+        // $aLama = intval($transaksiLama['a_kompensasi']);
+        $totalLama = intval($transaksiLama['total']);
         $pembayaranLama = intval($transaksiLama['pembayaran']);
 
-        $saldoLama = (($hargaLama * $kgLama) - ($aLama * $kgLama)) * -1 + $pembayaranLama;
+        $saldoLama = ($totalLama) * -1 + $pembayaranLama;
         $saldoBaru = (($harga * $kg) - ($a * $kg)) * -1 + $pembayaran;
 
         $saldoDetailRekening = intval($detailRekening['saldo_akhir']);
@@ -420,12 +431,14 @@ class Kasir extends CI_Controller
       $detailRekening = $this->Kasir_model->getDetailRekening($transaksi['code'], $bulan);
       $rekening = $this->Kasir_model->getRekening($detailRekening['id_rekening']);
 
-      $hargaLama = intval($transaksiLama['harga']);
-      $kgLama = floatval($transaksiLama['kg']);
-      $aLama = intval($transaksiLama['a_kompensasi']);
+      // $hargaLama = intval($transaksiLama['harga']);
+      // $kgLama = floatval($transaksiLama['kg']);
+      // $aLama = intval($transaksiLama['a_kompensasi']);
+      $totalLama = intval($transaksiLama['total']);
       $pembayaranLama = intval($transaksiLama['pembayaran']);
 
-      $saldoLama = $pembayaranLama - (($hargaLama * $kgLama) - ($aLama * $kgLama));
+      // $saldoLama = $pembayaranLama - (($hargaLama * $kgLama) - ($aLama * $kgLama));
+      $saldoLama = $pembayaranLama - $totalLama;
 
       $saldoDetailRekening = intval($detailRekening['saldo_akhir']);
       $saldoRekening = intval($rekening['saldo_akhir']);
@@ -444,14 +457,17 @@ class Kasir extends CI_Controller
 
   public function tambahDetailSusut()
   {
-    // $today = date("Y-m-d");
-
     $tanggal = $this->input->post('tanggal');
 
-    $produknya = $this->kasir_model->getProduk($tanggal);
+    $produknya = $this->Kasir_model->cekProduk($tanggal);
     if ($produknya == 0) {
       $this->tambahProduk($tanggal);
     }
+    $produknya = $this->Kasir_model->getProduk($tanggal);
+    $id_produk = intval($produknya['id_produk']);
+
+    $ayam_masuk_ekor = intval($this->input->post('ayam_masuk_ekor'));
+    $ayam_masuk_kg = intval($this->input->post('ayam_masuk_kg'));
 
     $kandang_ekor = intval($this->input->post('kandang_ekor'));
     $kandang_kg = floatval($this->input->post('kandang_kg'));
@@ -468,19 +484,46 @@ class Kasir extends CI_Controller
     $ekor = $kandang_ekor + $armada_ekor + $rpa_ekor;
     $kg = $kandang_kg + $armada_kg + $rpa_kg;
 
-    $data = array();
+    $persen = $this->hitungPersentase($admin_kg, $ayam_masuk_kg);
+    $this->tambahSusut($ekor, $kg, $persen);
+    $susutnya = $this->Kasir_model->getSusutTerbaru();
+    $id_susut = intval($susutnya['id_penyusutan']);
+
+    $data = array(
+      'id_produk' => $id_produk,
+      'id_penyusutan' => $id_susut,
+      'ayam_masuk_ekor' => $ayam_masuk_ekor,
+      'ayam_masuk_kg' => $ayam_masuk_kg,
+      'mati_kandang_ekor' => $kandang_ekor,
+      'mati_kandang_kg' => $kandang_kg,
+      'mati_armada_ekor' => $armada_ekor,
+      'mati_armada_kg' => $armada_kg,
+      'mati_rpa_ekor' => $rpa_ekor,
+      'mati_rpa_kg' => $rpa_kg,
+      'admin_ekor' => $admin_ekor,
+      'admin_kg' => $admin_kg,
+      'riil_ekor' => $riil_ekor,
+      'riil_kg' => $riil_kg
+    );
+    $this->Kasir_model->tambahDetailSusut($data);
+    redirect(base_url() . "kasir/penyusutanMingguan");
   }
 
   public function tambahProduk($tanggal)
   {
-    $ekor = 0;
-    $kg = 0;
+    $daybefore = strtotime($tanggal.'-1 day');
+    $kemaren = date("Y-m-d", $daybefore);
+    $produknya = $this->Kasir_model->getProduk($kemaren);
+
+    $ekor = $produknya['stok_ekor'];
+    $kg = $produknya['stok_kg'];
+
     $data = array(
       'tanggal' => $tanggal,
       'stok_ekor' => $ekor,
       'stok_kg' => $kg
     );
-    $this->kasir_model->tambahProdukSementara($data);
+    $this->Kasir_model->tambahProduk($data);
   }
 
   public function tambahSusut($ekor, $kg, $persen)
@@ -490,10 +533,26 @@ class Kasir extends CI_Controller
       'jumlah_kg' => $kg,
       'persentase' => $persen
     );
-    $this->kasir_model->tambahSusut($data);
+    $this->Kasir_model->tambahSusut($data);
   }
 
-  public function hitungPersentase($tanggal)
-  {;
+  public function hitungPersentase($admin, $ayamMasuk)
+  {
+    $persen = $admin / $ayamMasuk * 100;
+    return $persen;
+  }
+
+  public function tambahDetailPenjualan($tanggal, $id_penjualan){
+    $produk = $this->Kasir_model->cekProduk($tanggal);
+    if($produk == 0){
+      $this->tambahProduk($tanggal);
+    }
+    $produk = $this->Kasir_model->getProduk($tanggal);
+    $id_produk = $produk['id_produk'];
+    $data = array(
+      'id_penjualan' => $id_penjualan,
+      'id_produk' => $id_produk
+    );
+    $this->Kasir_model->tambahDetailPenjualan($data);
   }
 }
