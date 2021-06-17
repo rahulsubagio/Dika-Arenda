@@ -31,11 +31,7 @@ class Kasir extends CI_Controller
     $this->session->set_flashdata('judul', 'Jurnal Transaksi');
     $this->session->set_flashdata('base', 'kasir');
 
-    $data['customer'] = $this->Kasir_model->getCustomer();
-    $countC = $this->Kasir_model->countCustomer('customer') + 1;
-    $countU = $this->Kasir_model->countCustomer('umum') + 1;
-    $data['countCustomer'] = $countC;
-    $data['countUmum'] = $countU;
+
 
     $data = $this->loadJurnal();
 
@@ -61,6 +57,12 @@ class Kasir extends CI_Controller
       $data['hari'] = $today;
       $this->session->set_flashdata('button', 'on');
     }
+    $data['customer'] = $this->Kasir_model->getCustomer();
+    $countC = $this->Kasir_model->countCustomer('customer') + 1;
+    $countU = $this->Kasir_model->countCustomer('umum') + 1;
+    $data['countCustomer'] = $countC;
+    $data['countUmum'] = $countU;
+
     return $data;
   }
 
@@ -75,7 +77,8 @@ class Kasir extends CI_Controller
     $this->load->view('templates/footer');
   }
 
-  public function loadLeger(){
+  public function loadLeger()
+  {
     $data['daftar_customer'] = $this->Kasir_model->getCustomerLangganan();
 
     if (isset($_POST['update'])) {
@@ -107,7 +110,8 @@ class Kasir extends CI_Controller
     $this->load->view('templates/footer');
   }
 
-  public function loadRekapHarian(){
+  public function loadRekapHarian()
+  {
     $tanggal = $this->input->post('tanggal');
     $today = date("Y-m-d");
 
@@ -134,7 +138,8 @@ class Kasir extends CI_Controller
     $this->load->view('templates/footer');
   }
 
-  public function loadRekapBulanan(){
+  public function loadRekapBulanan()
+  {
     if (isset($_POST['update'])) {
       $bulan = $this->input->post('bulan');
       $dataBulan = strtotime($bulan);
@@ -161,7 +166,8 @@ class Kasir extends CI_Controller
     $this->load->view('templates/footer');
   }
 
-  public function loadRekapPenjualan(){
+  public function loadRekapPenjualan()
+  {
     if (isset($_POST['update'])) {
       $bulan = $this->input->post('bulan');
       $dataBulan = strtotime($bulan);
@@ -173,7 +179,7 @@ class Kasir extends CI_Controller
     }
     $data['rekap'] = $this->Kasir_model->getPenjualananBulanan($bulan);
     $data['subtotal'] = $this->Kasir_model->getSubtotalPenjualananBulanan($bulan);
-    
+
     return $data;
   }
 
@@ -189,30 +195,40 @@ class Kasir extends CI_Controller
     $this->load->view('templates/footer');
   }
 
-  public function loadPenyusutanMingguan(){
+  public function loadPenyusutanMingguan()
+  {
     if (isset($_POST['update'])) {
-      $minggu = $this->input->post('minggu');
-      $year = substr($minggu, 0, 4);
-      $week = substr($minggu, 6, 2);
-      $date1 = date("l, M jS, Y", strtotime($year . "W" . $week . "1")); // First day of week
-      $date2 = date("l, M jS, Y", strtotime($year . "W" . $week . "7")); // Last day of week
-      $tanggalnya = $date1 . " - " . $date2;
-      $data['minggu'] = $tanggalnya;
-    } else {
-      $today = date("d-m-Y");
-      $date = new DateTime($today);
-      $week = $date->format("W");
-      $year = $date->format("Y");
-      $date1 = date("l, M jS, Y", strtotime($year . "W" . $week . "1")); // First day of week
-      $date2 = date("l, M jS, Y", strtotime($year . "W" . $week . "7")); // Last day of week
-      $minggu = $date1 . " - " . $date2;
-      $data['minggu'] = $minggu;
-    }
-    $tanggal1 = date("Y-m-d", strtotime($date1));
-    $tanggal2 = date("Y-m-d", strtotime($date2));
+      // $minggu = $this->input->post('minggu');
+      // $year = substr($minggu, 0, 4);
+      // $week = substr($minggu, 6, 2);
+      // $date1 = date("l, M jS, Y", strtotime($year . "W" . $week . "1")); // First day of week
+      // $date2 = date("l, M jS, Y", strtotime($year . "W" . $week . "7")); // Last day of week
+      // $tanggalnya = $date1 . " - " . $date2;
+      // $data['minggu'] = $tanggalnya;
 
-    $data['susut'] = $this->Kasir_model->getSusutSeminggu($tanggal1, $tanggal2);
-    
+      $bulan = $this->input->post('bulan');
+      $dataBulan = strtotime($bulan);
+      $bulannya = date("M Y", $dataBulan);
+      $data['bulan'] = $bulannya;
+    } else {
+      // $today = date("d-m-Y");
+      // $date = new DateTime($today);
+      // $week = $date->format("W");
+      // $year = $date->format("Y");
+      // $date1 = date("l, M jS, Y", strtotime($year . "W" . $week . "1")); // First day of week
+      // $date2 = date("l, M jS, Y", strtotime($year . "W" . $week . "7")); // Last day of week
+      // $minggu = $date1 . " - " . $date2;
+      // $data['minggu'] = $minggu;
+
+      $today = date("Y-m");
+      $bulan = $today;
+      $data['bulan'] = $bulan;
+    }
+    // $tanggal1 = date("Y-m-d", strtotime($date1));
+    // $tanggal2 = date("Y-m-d", strtotime($date2));
+
+    $data['susut'] = $this->Kasir_model->getSusutSeminggu($bulan);
+    // $data['jual'] = $this->Kasir_model->getPenjualananBulanan($bulan);
     return $data;
   }
 
@@ -327,6 +343,10 @@ class Kasir extends CI_Controller
 
 
     $this->Kasir_model->tambahTransaksi($data);
+    $transaksiBaruBanget = $this->Kasir_model->getTransaksiBaru();
+    $id = $transaksiBaruBanget['id_penjualan'];
+    $id_produk = $this->tambahDetailPenjualan($today, $id);
+    $this->kurangProduk($kg, $ekor, $id_produk);
 
     // $this->Post_model->tambahPost($data);
     // $this->session->set_flashdata('notif', 'ditambahkan');
@@ -348,6 +368,7 @@ class Kasir extends CI_Controller
       $cekCode = substr($code, 0, 1);
 
       $kg = floatval($this->input->post('kg'));
+      $ekor = floatval($this->input->post('ekor'));
       $harga = intval($this->input->post('harga'));
       $a = intval($this->input->post('a'));
       $total = ($kg * $harga) - ($a * $kg);
@@ -364,9 +385,13 @@ class Kasir extends CI_Controller
         'total' => $total,
         'pembayaran' => $this->input->post('pembayaran')
       );
+      $transaksiLama = $this->Kasir_model->getTransaksiById($id);
+      $kgLama = floatval($transaksiLama['kg']);
+      $ekorLama = intval($transaksiLama['ekor']);
+
       if ($cekCode == 'C') {
         $bulan = date('Y-m-01');
-        $transaksiLama = $this->Kasir_model->getTransaksiById($id);
+
         $detailRekening = $this->Kasir_model->getDetailRekening($code, $bulan);
         $rekening = $this->Kasir_model->getRekening($detailRekening['id_rekening']);
 
@@ -390,6 +415,13 @@ class Kasir extends CI_Controller
         $this->Kasir_model->updateDetailRekening($code, $bulan, $perubahanSaldoDetailRekening);
         $this->Kasir_model->updateRekening($detailRekening['id_rekening'], $perubahanSaldoRekening);
       }
+      //edit produk
+      $detail = $this->Kasir_model->getDetailPenjualan($id);
+
+      $id_produk = $detail['id_produk'];
+      $this->tambahProduknya($kgLama, $ekorLama, $id_produk);
+      $this->kurangProduk($kg, $ekor, $id_produk);
+
       $this->Kasir_model->updateTransaksi($id, $data);
       redirect(base_url() . "kasir/jurnal");
     } else {
@@ -451,6 +483,16 @@ class Kasir extends CI_Controller
       $this->Kasir_model->updateDetailRekening($transaksi['code'], $bulan, $perubahanSaldoDetailRekening);
       $this->Kasir_model->updateRekening($detailRekening['id_rekening'], $perubahanSaldoRekening);
     }
+
+
+    $detail = $this->Kasir_model->getDetailPenjualan($id);
+
+    $kg = floatval($transaksi['kg']);
+    $ekor = intval($transaksi['ekor']);
+    $id_produk = $detail['id_produk'];
+    $this->tambahProduknya($kg, $ekor, $id_produk);
+
+    $this->Kasir_model->deleteDetailTransaksi($id);
     $this->Kasir_model->deleteTransaksi($id);
     redirect(base_url() . "kasir/jurnal");
   }
@@ -511,7 +553,7 @@ class Kasir extends CI_Controller
 
   public function tambahProduk($tanggal)
   {
-    $daybefore = strtotime($tanggal.'-1 day');
+    $daybefore = strtotime($tanggal . '-1 day');
     $kemaren = date("Y-m-d", $daybefore);
     $produknya = $this->Kasir_model->getProduk($kemaren);
 
@@ -542,9 +584,10 @@ class Kasir extends CI_Controller
     return $persen;
   }
 
-  public function tambahDetailPenjualan($tanggal, $id_penjualan){
+  public function tambahDetailPenjualan($tanggal, $id_penjualan)
+  {
     $produk = $this->Kasir_model->cekProduk($tanggal);
-    if($produk == 0){
+    if ($produk == 0) {
       $this->tambahProduk($tanggal);
     }
     $produk = $this->Kasir_model->getProduk($tanggal);
@@ -554,5 +597,38 @@ class Kasir extends CI_Controller
       'id_produk' => $id_produk
     );
     $this->Kasir_model->tambahDetailPenjualan($data);
+    return $id_produk;
+  }
+
+  public function kurangProduk($kg, $ekor, $id)
+  {
+    $produk = $this->Kasir_model->getProdukbyId($id);
+    $ekorLama = intval($produk['stok_ekor']);
+    $kgLama = floatval($produk['stok_kg']);
+    $ekorBaru = $ekorLama - $ekor;
+    $kgBaru = $kgLama - $kg;
+    $data = array(
+      'id_produk' => $id,
+      'tanggal' => $produk['tanggal'],
+      'stok_ekor' => $ekorBaru,
+      'stok_kg' => $kgBaru
+    );
+    $this->Kasir_model->updateProduk($id, $data);
+  }
+
+  public function tambahProduknya($kg, $ekor, $id)
+  {
+    $produk = $this->Kasir_model->getProdukbyId($id);
+    $ekorLama = intval($produk['stok_ekor']);
+    $kgLama = floatval($produk['stok_kg']);
+    $ekorBaru = $ekorLama + $ekor;
+    $kgBaru = $kgLama + $kg;
+    $data = array(
+      'id_produk' => $id,
+      'tanggal' => $produk['tanggal'],
+      'stok_ekor' => $ekorBaru,
+      'stok_kg' => $kgBaru
+    );
+    $this->Kasir_model->updateProduk($id, $data);
   }
 }

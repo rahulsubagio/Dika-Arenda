@@ -17,15 +17,15 @@
       <form action="<?= base_url() ?>/kasir/penyusutanMingguan" method="POST" class="row g-3">
         <div class="col-md-3">
           <?php if (isset($_POST['update'])) : ?>
-          <h5>Minggu terpilih : <?= $minggu; ?></h5>
+          <h5>Bulan terpilih : <?= $bulan; ?></h5>
           <?php else : ?>
-          <h5>Minggu Ini : <?= $minggu; ?></h5>
+          <h5>Bulan Ini : <?= $bulan; ?></h5>
           <?php endif; ?>
         </div>
         <div class="col-md-9 row">
-          <label class="col-form-label col-md-2">Pilih Minggu</label>
+          <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-5">
-            <input type="week" class="form-control" name="minggu">
+            <input type="month" class="form-control" name="bulan">
           </div>
           <div class="col-md-2">
             <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
@@ -76,18 +76,25 @@
         <tbody>
           <?php
           if ($susut != NULL) :
+            $this->load->model('Kasir_model');
             $i = 1;
             foreach ($susut as $s) :
-              $penjualan = $this->kasir_model->getSubtotalJurnal($s['tanggal']);
+              // foreach($jual as $j) : 
+              // foreach(array_combine($susut, $jual) as $s => $j) :
+              $tanggal =  strtotime($s['tanggal']);
+              $hari = date("D", $tanggal);
+              
+              $coba = $this->Kasir_model->getSubtotalJurnal($tanggal);
+              var_dump($coba);
           ?>
           <tr>
             <td align="center"><?= $i; ?></td>
-            <td align="center"><?= date('D', $s['tanggal']); ?></td>
+            <td align="center"><?= $hari; ?></td>
             <td align="center"><?= $s['tanggal']; ?></td>
             <td align="center"><?= $s['ayam_masuk_ekor']; ?></td>
             <td align="center"><?= $s['ayam_masuk_kg']; ?></td>
-            <td align="center"><?= $penjualan['ekor'];  ?></td>
-            <td align="center"><?= $penjualan['kg'];  ?></td>
+            <td align="center"></td>
+            <td align="center"></td>
             <td align="center"><?= $s['mati_kandang_ekor']; ?></td>
             <td align="center"><?= $s['mati_kandang_kg']; ?></td>
             <td align="center"><?= $s['mati_armada_ekor']; ?></td>
@@ -109,13 +116,15 @@
             <?php endif; ?>
           </tr>
           <?php
+          $i++;
             endforeach;
+            // endforeach;
           endif;
           ?>
         </tbody>
         <tfoot class="table-light">
           <tr>
-            <td colspan="3">Subtotal</td>
+            <!-- <td colspan="3">Subtotal</td>
             <td align="center">8.904</td>
             <td align="center">14.023,8</td>
             <td align="center">8.799</td>
@@ -129,9 +138,9 @@
             <td align="center">809</td>
             <td align="center">853,4</td>
             <td align="center">800</td>
-            <td align="center">831,1</td>
+            <td align="center">831,1</td> -->
             <?php if ($this->session->flashdata('button') == "on") : ?>
-            <td align="center" colspan="4">
+            <td align="center" colspan="22">
               <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                 data-bs-target="#exampleModal">Tambah</button>
             </td>

@@ -106,6 +106,36 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
+  public function getTransaksiBaru()
+  {
+    return $this->db
+      ->select('id_penjualan, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+      ->order_by('id_penjualan', 'DESC')
+      ->get('penjualan', 1)
+      ->row_array();
+  }
+
+  public function getProdukbyId($id)
+  {
+    return $this->db
+      ->where('id_produk', $id)
+      ->get('produk')
+      ->row_array();
+  }
+
+  public function getDetailPenjualan($id)
+  {
+    return $this->db
+      ->where('id_penjualan', $id)
+      ->get('detail_penjualan')
+      ->row_array();
+  }
+
+  public function updateProduk($id, $data)
+  {
+    $this->db->where('id_produk', $id)->update('produk', $data);
+  }
+
   public function updateTransaksi($id, $data)
   {
     $this->db->where('id_penjualan', $id)->update('penjualan', $data);
@@ -114,6 +144,11 @@ class Kasir_model extends CI_Model
   public function deleteTransaksi($id)
   {
     $this->db->where('id_penjualan', $id)->delete('penjualan');
+  }
+
+  public function deleteDetailTransaksi($id)
+  {
+    $this->db->where('id_penjualan', $id)->delete('detail_penjualan');
   }
 
   public function getSubtotalJurnal($tanggal)
@@ -293,15 +328,14 @@ class Kasir_model extends CI_Model
     $this->db->insert('detail_penyusutan', $data);
   }
 
-  public function getSusutSeminggu($tanggalAwal, $tanggalAkhir){
-    $where = 'tanggal BETWEEN '+$tanggalAwal+' AND '+$tanggalAkhir+'';
+  public function getSusutSeminggu($tanggal){
     return $this->db
       ->from('produk as pr')
       ->join('detail_penyusutan as dp', 'dp.id_produk = pr.id_produk')
       ->join('penyusutan as py', 'dp.id_penyusutan = py.id_penyusutan')
-      ->where($where)     
+      ->like('tanggal', $tanggal)     
       ->get()
-      ->row_array();
+      ->result_array();
   }
 
   // public function getSubtotalSusutSeminggu($tanggalAwal, $tanggalAkhir)
