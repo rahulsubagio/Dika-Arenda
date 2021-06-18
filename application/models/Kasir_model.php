@@ -86,7 +86,7 @@ class Kasir_model extends CI_Model
   public function getTransaksi($tanggal)
   {
     return $this->db
-      ->select('c.code, nama_customer, id_penjualan, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+      ->select('c.code, nama_customer, id_penjualan, id_produk, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->like('tanggal', $tanggal)
@@ -98,7 +98,7 @@ class Kasir_model extends CI_Model
   public function getTransaksiById($id)
   {
     return $this->db
-      ->select('c.code, nama_customer, id_penjualan, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+      ->select('c.code, nama_customer, id_penjualan, id_produk, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
       ->from('penjualan as p')
       ->join('customer as c', 'p.code = c.code')
       ->where('id_penjualan', $id)
@@ -330,10 +330,12 @@ class Kasir_model extends CI_Model
 
   public function getSusutSeminggu($tanggal){
     return $this->db
+      ->select('pr.*, dp.*, py.*, SUM(pj.ekor) as pj_ekor, SUM(pj.kg) as pj_kg')
       ->from('produk as pr')
       ->join('detail_penyusutan as dp', 'dp.id_produk = pr.id_produk')
       ->join('penyusutan as py', 'dp.id_penyusutan = py.id_penyusutan')
-      ->like('tanggal', $tanggal)     
+      ->join('penjualan as pj', 'pj.id_produk = pr.id_produk')
+      ->like('pr.tanggal', $tanggal)     
       ->get()
       ->result_array();
   }

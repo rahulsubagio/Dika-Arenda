@@ -53,12 +53,12 @@
               Rekap Mingguan
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
           <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('kasir/penyusutanBulanan') ?>">
               <span data-feather="file"></span>
               Rekap Bulanan
             </a>
-          </li>
+          </li> -->
           <hr>
         </ul>
 
@@ -81,7 +81,7 @@
         unset($_SESSION['rekbul']);
         unset($_SESSION['rekjual']);
         unset($_SESSION['susutMinggu']);
-        unset($_SESSION['susutBulan']);
+        // unset($_SESSION['susutBulan']);
         ?>
       </div>
     </nav>

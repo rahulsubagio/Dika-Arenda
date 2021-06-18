@@ -79,34 +79,34 @@
             $this->load->model('Kasir_model');
             $i = 1;
             foreach ($susut as $s) :
-              // foreach($jual as $j) : 
-              // foreach(array_combine($susut, $jual) as $s => $j) :
               $tanggal =  strtotime($s['tanggal']);
               $hari = date("D", $tanggal);
               
-              $coba = $this->Kasir_model->getSubtotalJurnal($tanggal);
-              var_dump($coba);
+              if($hari == "Sun") :
           ?>
+          <tr class="table-success">
+            <?php else : ?>
           <tr>
+            <?php endif; ?>
             <td align="center"><?= $i; ?></td>
             <td align="center"><?= $hari; ?></td>
             <td align="center"><?= $s['tanggal']; ?></td>
             <td align="center"><?= $s['ayam_masuk_ekor']; ?></td>
-            <td align="center"><?= $s['ayam_masuk_kg']; ?></td>
-            <td align="center"></td>
-            <td align="center"></td>
+            <td align="center"><?= number_format($s['ayam_masuk_kg'], 1, ",", "."); ?></td>
+            <td align="center"><?= $s['pj_ekor']; ?></td>
+            <td align="center"><?= number_format($s['pj_kg'], 1, ",", "."); ?></td>
             <td align="center"><?= $s['mati_kandang_ekor']; ?></td>
-            <td align="center"><?= $s['mati_kandang_kg']; ?></td>
+            <td align="center"><?= number_format($s['mati_kandang_kg'], 1, ",", ".");  ?></td>
             <td align="center"><?= $s['mati_armada_ekor']; ?></td>
-            <td align="center"><?= $s['mati_armada_kg']; ?></td>
+            <td align="center"><?= number_format($s['mati_armada_kg'], 1, ",", ".");?></td>
             <td align="center"><?= $s['mati_rpa_ekor']; ?></td>
-            <td align="center"><?= $s['mati_rpa_kg']; ?></td>
+            <td align="center"><?= number_format($s['mati_rpa_kg'], 1, ",", ".");?></td>
             <td align="center"><?= $s['admin_ekor']; ?></td>
-            <td align="center"><?= $s['admin_kg']; ?></td>
+            <td align="center"><?= number_format($s['admin_kg'], 1, ",", ".");?></td>
             <td align="center"><?= $s['riil_ekor']; ?></td>
-            <td align="center"><?= $s['riil_kg']; ?></td>
+            <td align="center"><?= number_format($s['riil_kg'], 1, ",", ".");?></td>
             <td align="center">-</td>
-            <td align="center"><?= $s['persentase']; ?></td>
+            <td align="center"><?= number_format($s['persentase'], 1, ",", "."); ?>%</td>
             <td align="center"></td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
             <td align="center">
