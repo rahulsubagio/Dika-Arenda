@@ -195,28 +195,12 @@
                 <td>Harga (Rp.)</td>
                 <td><input name="harga" type="number" min="0" placeholder="Harga ayam per kg" required></td>
               </tr>
-              <tr>
-                <td>Jumlah</td>
-                <td>
-                  <fieldset disabled="disabled">
-                    <input type="number" value="">
-                  </fieldset>
-                  Bagian JS buat perhitungan langsungnya (Harga * Kg)
-                </td>
-              </tr>
+             
               <tr>
                 <td>a</td>
                 <td><input name="a" type="number" min="0" placeholder="kompensasi per kg" required></td>
               </tr>
-              <tr>
-                <td>Total</td>
-                <td>
-                  <fieldset disabled="disabled">
-                    <input type="number" value="">
-                  </fieldset>
-                  Bagian JS buat perhitungan langsungnya (Jumlah - (a * Kg))
-                </td>
-              </tr>
+              
               <tr align="center" class="table-dark">
                 <td colspan="2">Bagian Pembayaran</td>
               </tr>
