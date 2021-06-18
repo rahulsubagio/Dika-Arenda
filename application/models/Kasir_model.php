@@ -106,6 +106,36 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
+  public function getTransaksiBaru()
+  {
+    return $this->db
+      ->select('id_penjualan, tanggal, ekor, kg, harga, (kg*harga) as jumlah, a_kompensasi, total, pembayaran')
+      ->order_by('id_penjualan', 'DESC')
+      ->get('penjualan', 1)
+      ->row_array();
+  }
+
+  public function getProdukbyId($id)
+  {
+    return $this->db
+      ->where('id_produk', $id)
+      ->get('produk')
+      ->row_array();
+  }
+
+  public function getDetailPenjualan($id)
+  {
+    return $this->db
+      ->where('id_penjualan', $id)
+      ->get('detail_penjualan')
+      ->row_array();
+  }
+
+  public function updateProduk($id, $data)
+  {
+    $this->db->where('id_produk', $id)->update('produk', $data);
+  }
+
   public function updateTransaksi($id, $data)
   {
     $this->db->where('id_penjualan', $id)->update('penjualan', $data);
@@ -114,6 +144,11 @@ class Kasir_model extends CI_Model
   public function deleteTransaksi($id)
   {
     $this->db->where('id_penjualan', $id)->delete('penjualan');
+  }
+
+  public function deleteDetailTransaksi($id)
+  {
+    $this->db->where('id_penjualan', $id)->delete('detail_penjualan');
   }
 
   public function getSubtotalJurnal($tanggal)
@@ -245,14 +280,18 @@ class Kasir_model extends CI_Model
       ->row_array();
   }
 
+  public function tambahDetailPenjualan($data){
+    $this->db->insert('detail_penjualan', $data);
+  }
+
   // PENYUSUTAN
 
-  public function tambahProdukSementara($data)
+  public function tambahProduk($data)
   {
     $this->db->insert('produk', $data);
   }
 
-  public function getProduk($tanggal)
+  public function cekProduk($tanggal)
   {
     return $this->db
       ->where('tanggal', $tanggal)
@@ -261,8 +300,56 @@ class Kasir_model extends CI_Model
       ->num_rows();
   }
 
+  public function getProduk($tanggal)
+  {
+    return $this->db
+      ->where('tanggal', $tanggal)
+      ->from('produk')
+      ->get()
+      ->row_array();
+  }
+
   public function tambahSusut($data)
   {
     $this->db->insert('penyusutan', $data);
   }
+
+  public function getSusutTerbaru()
+  {
+    return $this->db
+      ->from('penyusutan')
+      ->order_by('id_penyusutan','DESC')
+      ->get()
+      ->row_array();
+  }
+
+  public function tambahDetailSusut($data)
+  {
+    $this->db->insert('detail_penyusutan', $data);
+  }
+
+  public function getSusutSeminggu($tanggal){
+    return $this->db
+      ->from('produk as pr')
+      ->join('detail_penyusutan as dp', 'dp.id_produk = pr.id_produk')
+      ->join('penyusutan as py', 'dp.id_penyusutan = py.id_penyusutan')
+      ->like('tanggal', $tanggal)     
+      ->get()
+      ->result_array();
+  }
+
+  // public function getSubtotalSusutSeminggu($tanggalAwal, $tanggalAkhir)
+  // {
+  //   return $this->db
+  //     ->select('tanggal, SUM(ayam_masuk_ekor) as ayam_masuk_ekor, SUM(ayam_masuk_kg) as ayam_masuk_kg,
+  //     SUM(mati_kandang_ekor) as mati_kandang_ekor, SUM(mati_kandang_kg) as mati_kandang_kg, SUM(mati_armada_ekor) as mati_armada_ekor,
+  //     SUM(mati_armada_kg) as mati_armada_kg, SUM(mati_rpa_ekor) as mati_rpa_ekor, SUM(mati_rpa_kg) as mati_rpa_kg')
+  //     ->from('produk')
+  //     ->join('detail_penyusutan')
+  //     ->join('penyusutan')
+  //     ->where('tanggal BETWEEN $tanggalAwal AND $tanggalAkhir')
+  //     ->get()
+  //     ->row_array();
+  // }
+
 }

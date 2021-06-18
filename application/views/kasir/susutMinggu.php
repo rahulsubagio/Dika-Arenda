@@ -17,15 +17,15 @@
       <form action="<?= base_url() ?>/kasir/penyusutanMingguan" method="POST" class="row g-3">
         <div class="col-md-3">
           <?php if (isset($_POST['update'])) : ?>
-            <h5>Minggu terpilih : <?= $minggu; ?></h5>
+          <h5>Bulan terpilih : <?= $bulan; ?></h5>
           <?php else : ?>
-            <h5>Minggu Ini : <?= $minggu; ?></h5>
+          <h5>Bulan Ini : <?= $bulan; ?></h5>
           <?php endif; ?>
         </div>
         <div class="col-md-9 row">
-          <label class="col-form-label col-md-2">Pilih Minggu</label>
+          <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-5">
-            <input type="week" class="form-control" name="minggu">
+            <input type="month" class="form-control" name="bulan">
           </div>
           <div class="col-md-2">
             <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
@@ -74,66 +74,57 @@
           </tr>
         </thead>
         <tbody>
+          <?php
+          if ($susut != NULL) :
+            $this->load->model('Kasir_model');
+            $i = 1;
+            foreach ($susut as $s) :
+              // foreach($jual as $j) : 
+              // foreach(array_combine($susut, $jual) as $s => $j) :
+              $tanggal =  strtotime($s['tanggal']);
+              $hari = date("D", $tanggal);
+              
+              $coba = $this->Kasir_model->getSubtotalJurnal($tanggal);
+              var_dump($coba);
+          ?>
           <tr>
-            <td align="center">1.</td>
-            <td align="center">Senin</td>
-            <td align="center">01/03/2021</td>
-            <td align="center">1.035</td>
-            <td align="center">1.221,5</td>
-            <td align="center">892</td>
-            <td align="center">923,7</td>
-            <td align="center">1</td>
-            <td align="center">1,1</td>
-            <td align="center">2</td>
-            <td align="center">2,5</td>
-            <td align="center">0</td>
-            <td align="center">0</td>
-            <td align="center">502</td>
-            <td align="center">521,5</td>
-            <td align="center">497</td>
-            <td align="center">816</td>
+            <td align="center"><?= $i; ?></td>
+            <td align="center"><?= $hari; ?></td>
+            <td align="center"><?= $s['tanggal']; ?></td>
+            <td align="center"><?= $s['ayam_masuk_ekor']; ?></td>
+            <td align="center"><?= $s['ayam_masuk_kg']; ?></td>
+            <td align="center"></td>
+            <td align="center"></td>
+            <td align="center"><?= $s['mati_kandang_ekor']; ?></td>
+            <td align="center"><?= $s['mati_kandang_kg']; ?></td>
+            <td align="center"><?= $s['mati_armada_ekor']; ?></td>
+            <td align="center"><?= $s['mati_armada_kg']; ?></td>
+            <td align="center"><?= $s['mati_rpa_ekor']; ?></td>
+            <td align="center"><?= $s['mati_rpa_kg']; ?></td>
+            <td align="center"><?= $s['admin_ekor']; ?></td>
+            <td align="center"><?= $s['admin_kg']; ?></td>
+            <td align="center"><?= $s['riil_ekor']; ?></td>
+            <td align="center"><?= $s['riil_kg']; ?></td>
             <td align="center">-</td>
-            <td align="center">3,4</td>
+            <td align="center"><?= $s['persentase']; ?></td>
             <td align="center"></td>
             <?php if ($this->session->flashdata('button') == "on") : ?>
-              <td align="center">
-                <a href="#" class="btn btn-primary btn-sm">Ubah</a>
-                <a href="#" class="btn btn-danger btn-sm">Hapus</a>
-              </td>
+            <td align="center">
+              <a href="#" class="btn btn-primary btn-sm">Ubah</a>
+              <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+            </td>
             <?php endif; ?>
           </tr>
-          <tr>
-            <td align="center">1.</td>
-            <td align="center">Senin</td>
-            <td align="center">01/03/2021</td>
-            <td align="center">1.035</td>
-            <td align="center">1.221,5</td>
-            <td align="center">892</td>
-            <td align="center">923,7</td>
-            <td align="center">1</td>
-            <td align="center">1,1</td>
-            <td align="center">2</td>
-            <td align="center">2,5</td>
-            <td align="center">0</td>
-            <td align="center">0</td>
-            <td align="center">502</td>
-            <td align="center">521,5</td>
-            <td align="center">497</td>
-            <td align="center">816</td>
-            <td align="center">-</td>
-            <td align="center">3,4</td>
-            <td align="center"></td>
-            <?php if ($this->session->flashdata('button') == "on") : ?>
-              <td align="center">
-                <a href="#" class="btn btn-primary btn-sm">Ubah</a>
-                <a href="#" class="btn btn-danger btn-sm">Hapus</a>
-              </td>
-            <?php endif; ?>
-          </tr>
+          <?php
+          $i++;
+            endforeach;
+            // endforeach;
+          endif;
+          ?>
         </tbody>
         <tfoot class="table-light">
           <tr>
-            <td colspan="3">Subtotal</td>
+            <!-- <td colspan="3">Subtotal</td>
             <td align="center">8.904</td>
             <td align="center">14.023,8</td>
             <td align="center">8.799</td>
@@ -147,11 +138,12 @@
             <td align="center">809</td>
             <td align="center">853,4</td>
             <td align="center">800</td>
-            <td align="center">831,1</td>
+            <td align="center">831,1</td> -->
             <?php if ($this->session->flashdata('button') == "on") : ?>
-              <td align="center" colspan="4">
-                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
-              </td>
+            <td align="center" colspan="22">
+              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Tambah</button>
+            </td>
             <?php endif; ?>
           </tr>
         </tfoot>
@@ -173,7 +165,7 @@
               <tr>
                 <td>Pilih Tanggal</td>
                 <td>
-                  <input type="date" name="tanggal" required/>
+                  <input type="date" name="tanggal" required />
                 </td>
               </tr>
               <tr align="center" class="table-primary">
@@ -185,7 +177,7 @@
               </tr>
               <tr>
                 <td><input type="number" placeholder="Jumlah ayam (ekor)" name="ayam_masuk_ekor" min="0" required></td>
-                <td><input type="number" placeholder="Jumlah ayam (kg)" name="ayam_masuk_kg" min="0" required></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="ayam_masuk_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-dark">
                 <td colspan="2">Ayam Mati</td>
@@ -199,7 +191,7 @@
               </tr>
               <tr>
                 <td><input type="number" placeholder="Jumlah ayam (ekor)" name="kandang_ekor" min="0" required></td>
-                <td><input type="number" placeholder="Jumlah ayam (kg)" name="kandang_kg" min="0" required></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="kandang_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-primary">
                 <td colspan="2">Mati Armada</td>
@@ -210,7 +202,7 @@
               </tr>
               <tr>
                 <td><input type="number" placeholder="Jumlah ayam (ekor)" name="armada_ekor" min="0" required></td>
-                <td><input type="number" placeholder="Jumlah ayam (kg)" name="armada_kg" min="0" required></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="armada_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-primary">
                 <td colspan="2">Mati RPA</td>
@@ -221,7 +213,7 @@
               </tr>
               <tr>
                 <td><input type="number" placeholder="Jumlah ayam (ekor)" name="rpa_ekor" min="0" required></td>
-                <td><input type="number" placeholder="Jumlah ayam (kg)" name="rpa_kg" min="0" required></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="rpa_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-dark">
                 <td colspan="2">Stock Ayam</td>
@@ -235,7 +227,7 @@
               </tr>
               <tr>
                 <td><input type="number" placeholder="Jumlah ayam (ekor)" name="admin_ekor" min="0" required></td>
-                <td><input type="number" placeholder="Jumlah ayam (kg)" name="admin_kg" min="0" required></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="admin_kg" min="0" required></td>
               </tr>
               <tr align="center" class="table-primary">
                 <td colspan="2">Riil</td>
@@ -246,15 +238,15 @@
               </tr>
               <tr>
                 <td><input type="number" placeholder="Jumlah ayam (ekor)" name="riil_ekor" min="0" required></td>
-                <td><input type="number" placeholder="Jumlah ayam (kg)" name="riil_kg" min="0" required></td>
+                <td><input type="text" placeholder="Jumlah ayam (kg)" name="riil_kg" min="0" required></td>
               </tr>
             </table>
-          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Tambah / Simpan</button>
+          <button type="submit" class="btn btn-primary">Tambah / Simpan</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
