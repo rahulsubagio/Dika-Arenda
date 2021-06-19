@@ -48,13 +48,12 @@ class Kasir extends CI_Controller
       $data['transaksi'] = $this->Kasir_model->getTransaksi($tanggal);
       $data['subtotal'] = $this->Kasir_model->getSubtotalJurnal($tanggal);
       $data['hari'] = $tanggal;
-      $this->session->set_flashdata('button', 'off');
     } else {
       $data['transaksi'] = $this->Kasir_model->getTransaksi($today);
       $data['subtotal'] = $this->Kasir_model->getSubtotalJurnal($today);
       $data['hari'] = $today;
-      $this->session->set_flashdata('button', 'on');
     }
+    $this->session->set_flashdata('button', 'on');
     $data['customer'] = $this->Kasir_model->getCustomer();
     $countC = $this->Kasir_model->countCustomer('customer') + 1;
     $countU = $this->Kasir_model->countCustomer('umum') + 1;
@@ -248,7 +247,8 @@ class Kasir extends CI_Controller
   public function tambahTransaksi()
   {
     $tanggalSatu = date("Y-m-01");
-    $today = date("Y-m-d");
+    $tanggal = strtotime($this->input->post('tanggal'));
+    $today = date("Y-m-d", $tanggal);
 
     if ($this->input->post('customer') != NULL) {
 
@@ -379,7 +379,7 @@ class Kasir extends CI_Controller
 
       $data = array(
         'id_penjualan' => $this->input->post('id'),
-        'id_produk' =>$this->input->post('id_produk'),
+        'id_produk' => $this->input->post('id_produk'),
         'code' => $this->input->post('code'),
         'tanggal' => $this->input->post('tanggal'),
         'ekor' => $this->input->post('ekor'),

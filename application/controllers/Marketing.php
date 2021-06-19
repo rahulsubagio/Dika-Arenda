@@ -24,6 +24,7 @@ class Marketing extends CI_Controller
     $this->session->set_flashdata('judul', 'Jurnal Transaksi Pembelian');
     $this->session->set_flashdata('button', 'on');
     $this->session->set_flashdata('collapse_pembelian', 'show');
+    $this->session->set_flashdata('base', 'marketing');
 
     $data = $this->_jurnalPembelian();
 
@@ -60,6 +61,7 @@ class Marketing extends CI_Controller
   {
     $this->session->set_flashdata('legerBeli', 'active');
     $this->session->set_flashdata('collapse_pembelian', 'show');
+    $this->session->set_flashdata('base', 'marketing');
 
     $data = $this->_legerPembelian();
 
@@ -82,6 +84,7 @@ class Marketing extends CI_Controller
       $data['dataTransaksi']  = $this->Marketing_model->getTransaksiLeger($id, $bulan);
       $data['subtotal'] = $this->Marketing_model->getSubtotalLeger($id, $bulan);
       $data['bulan'] = $bulannya;
+      $data['dVendor'] = $this->Marketing_model->getVendorId($id);
     }
 
     return $data;
@@ -93,6 +96,7 @@ class Marketing extends CI_Controller
     $this->session->set_flashdata('judul', 'Rekapitulasi Harian Transaksi Pembelian');
     $this->session->set_flashdata('button', 'off');
     $this->session->set_flashdata('collapse_pembelian', 'show');
+    $this->session->set_flashdata('base', 'marketing');
 
     $data = $this->_jurnalPembelian();
 
@@ -102,94 +106,34 @@ class Marketing extends CI_Controller
     $this->load->view('templates/footer');
   }
 
-  public function rekapMingguanPembelian()
-  {
-    $this->session->set_flashdata('rekmingBeli', 'active');
-    $this->session->set_flashdata('judul', 'Rekapitulasi Mingguan Transaksi Pembelian');
-    $this->session->set_flashdata('jenis', 'minggu');
-    $this->session->set_flashdata('collapse_pembelian', 'show');
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/pembelian/rekapMingguBulan');
-    $this->load->view('templates/footer');
-  }
-
   public function rekapBulananPembelian()
   {
-    $this->session->set_flashdata('rekbulBeli', 'active');
+    $this->session->set_flashdata('active', 'rekbulBeli');
     $this->session->set_flashdata('judul', 'Rekapitulasi Bulanan Transaksi Pembelian');
     $this->session->set_flashdata('jenis', 'bulan');
     $this->session->set_flashdata('collapse_pembelian', 'show');
+    $this->session->set_flashdata('base', 'marketing');
+
+    $data = $this->_rekapBulananPembelian();
 
     $this->load->view('templates/navbar');
     $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/pembelian/rekapMingguBulan');
+    $this->load->view('marketing/pembelian/rekapBulan', $data);
     $this->load->view('templates/footer');
   }
 
-  // penjualan
-  public function jurnalPenjualan()
+  public function _rekapBulananPembelian()
   {
-    $this->session->set_flashdata('jurnalJual', 'active');
-    $this->session->set_flashdata('judul', 'Jurnal Transaksi Pembelian');
-    $this->session->set_flashdata('button', 'on');
-    $this->session->set_flashdata('collapse_penjualan', 'show');
+    if (isset($_POST['update'])) {
+      $bulan      = $this->input->post('bulan');
+      $dataBulan  = strtotime($bulan);
+      $bulannya   = date("M Y", $dataBulan);
 
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/penjualan/jurnal');
-    $this->load->view('templates/footer');
-  }
-
-  public function legerPenjualan()
-  {
-    $this->session->set_flashdata('legerJual', 'active');
-    $this->session->set_flashdata('collapse_penjualan', 'show');
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/penjualan/leger');
-    $this->load->view('templates/footer');
-  }
-
-  public function rekapHarianPenjualan()
-  {
-    $this->session->set_flashdata('rekharJual', 'active');
-    $this->session->set_flashdata('judul', 'Rekapitulasi Harian Transaksi Pembelian');
-    $this->session->set_flashdata('button', 'off');
-    $this->session->set_flashdata('collapse_penjualan', 'show');
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/penjualan/jurnal');
-    $this->load->view('templates/footer');
-  }
-
-  public function rekapMingguanPenjualan()
-  {
-    $this->session->set_flashdata('rekmingJual', 'active');
-    $this->session->set_flashdata('judul', 'Rekapitulasi Mingguan Transaksi Pembelian');
-    $this->session->set_flashdata('jenis', 'minggu');
-    $this->session->set_flashdata('collapse_penjualan', 'show');
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/penjualan/rekapMingguBulan');
-    $this->load->view('templates/footer');
-  }
-
-  public function rekapBulananPenjualan()
-  {
-    $this->session->set_flashdata('rekbulJual', 'active');
-    $this->session->set_flashdata('judul', 'Rekapitulasi Bulanan Transaksi Pembelian');
-    $this->session->set_flashdata('jenis', 'bulan');
-    $this->session->set_flashdata('collapse_penjualan', 'show');
-
-    $this->load->view('templates/navbar');
-    $this->load->view('templates/marketing/sidebar');
-    $this->load->view('marketing/penjualan/rekapMingguBulan');
-    $this->load->view('templates/footer');
+      $data['dataTransaksi']  = $this->Marketing_model->getTransaksi($bulan);
+      $data['subtotal'] = $this->Marketing_model->getSubtotalJurnal($bulan);
+      $data['bulan'] = $bulannya;
+      return $data;
+    }
   }
 
   public function tambahTransaksi($data = null)
@@ -218,6 +162,43 @@ class Marketing extends CI_Controller
     );
     $this->Marketing_model->tambahTransaksi($data);
     redirect('/marketing/jurnalPembelian');
+  }
+
+  public function editTransaksi($id)
+  {
+    $this->session->set_flashdata('jurnal', 'active');
+    $this->session->set_flashdata('judul', 'Edit Transaksi');
+
+    $data['transaksi'] = $this->Marketing_model->getTransaksiById($id);
+
+    if (isset($_POST['update'])) {
+      $berat          = floatval($this->input->post('berat'));
+      $ekor           = floatval($this->input->post('ekor'));
+      $harga          = intval($this->input->post('harga'));
+      $total          = $berat * $harga;
+      $pembayaran     = intval($this->input->post('pembayaran'));
+
+      $data = array(
+        'id_transaksi'  => $id,
+        'id_vendor'     => $this->input->post('id_vendor'),
+        'id_pegawai'    => $this->input->post('id_pegawai'),
+        'no_surat'      => $this->input->post('no_surat'),
+        'tanggal'       => $this->input->post('tanggal'),
+        'ekor'          => $ekor,
+        'kg'            => $berat,
+        'harga'         => $this->input->post('harga'),
+        'total'         => $total,
+        'pembayaran'    => $pembayaran
+      );
+
+      $this->Marketing_model->updateTransaksi($id, $data);
+      redirect('/marketing/jurnalPembelian');
+    } else {
+      $this->load->view('templates/navbar');
+      $this->load->view('templates/marketing/sidebar');
+      $this->load->view('marketing/pembelian/editTransaksi', $data);
+      $this->load->view('templates/footer');
+    }
   }
 
   public function tambahKandang()

@@ -31,7 +31,7 @@
                 <?php if (isset($_POST['update'])) : ?>
                   <h5>Hari terpilih : <?= date($hari); ?></h5>
                 <?php else : ?>
-                  <h5>Hari Ini : <?= date("d M Y"); ?></h5>
+                  <h5>Hari Ini : <?= date($hari); ?></h5>
                 <?php endif; ?>
               </div>
               <div class="col-md-9 row">
@@ -129,6 +129,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <input type="hidden" name="tanggal" value="<?= $hari; ?>">
 
             <table align="center" class="table">
               <tr align="center" class="table-dark">
@@ -195,12 +196,12 @@
                 <td>Harga (Rp.)</td>
                 <td><input name="harga" type="number" min="0" placeholder="Harga ayam per kg" required></td>
               </tr>
-             
+
               <tr>
                 <td>a</td>
                 <td><input name="a" type="number" min="0" placeholder="kompensasi per kg" required></td>
               </tr>
-              
+
               <tr align="center" class="table-dark">
                 <td colspan="2">Bagian Pembayaran</td>
               </tr>

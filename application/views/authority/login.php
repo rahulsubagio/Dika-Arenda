@@ -35,7 +35,7 @@
       <div class="card-body">
         <img src="<?= base_url('assets/gambar/Ayam.png') ?>" width="100">
         <h1 class="card-title h2 fw-bold" style="color: #F5A433;">Dika Arenda</h1>
-        <form class="form-signin" action="<?= base_url('') ?>" method="POST">
+        <form class="form-signin" action="<?= base_url('auth/login') ?>" method="POST">
 
           <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
           <!-- <?php if ($this->session->flashdata('success')) : ?>
@@ -48,7 +48,7 @@
               <?= $this->session->flashdata('failed') ?>
             </div>
           <?php endif; ?> -->
-          <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+          <input type="text" id="email" name="username" class="form-control" placeholder="Username" required autofocus>
           <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
           <div class="text-center">
             <a class="note text-decoration-none" href="#">Create an Account!</a>
