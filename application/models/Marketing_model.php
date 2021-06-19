@@ -29,7 +29,7 @@ class Marketing_model extends CI_Model
 
   public function getVendorId($id)
   {
-    return $this->db->get_where('vendor', array('id_vendor' => $id))->result_array();
+    return $this->db->get_where('vendor', array('id_vendor' => $id))->row_array();
   }
 
   public function tambahTransaksi($data)
@@ -45,9 +45,25 @@ class Marketing_model extends CI_Model
       ->join('vendor as v', 't.id_vendor = v.id_vendor')
       ->join('pegawai as p', 't.id_pegawai = p.id_pegawai')
       ->like('tanggal', $tanggal)
-      ->order_by('id_transaksi', 'ASC')
+      ->order_by('t.id_vendor', 'ASC')
       ->get()
       ->result_array();
+  }
+
+  public function getTransaksiById($id)
+  {
+    return $this->db
+      ->from('transaksi as t')
+      ->join('vendor as v', 't.id_vendor = v.id_vendor')
+      ->join('pegawai as p', 't.id_pegawai = p.id_pegawai')
+      ->where('id_transaksi', $id)
+      ->get()
+      ->row_array();
+  }
+
+  public function updateTransaksi($id, $data)
+  {
+    $this->db->where('id_transaksi', $id)->update('transaksi', $data);
   }
 
   public function getTransaksiLeger($id, $tanggal)

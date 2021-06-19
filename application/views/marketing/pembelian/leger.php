@@ -15,93 +15,119 @@
 
   <div class="card shadow-sm">
     <div class="card-body">
-      <form action="<?= base_url() ?>marketing/legerPembelian/" method="POST" class="row g-3">
-        <div class="col-md-3">
-          <?php if (isset($_POST['update'])) : ?>
-            <h5>Periode : <?= date($bulan); ?></h5>
-          <?php else : ?>
-            <h5>Periode : <?= date("M Y"); ?></h5>
+      <?php if ($this->session->flashdata('base') == "marketing") : ?>
+        <form action="<?= base_url() ?>marketing/legerPembelian/" method="POST" class="row g-3">
+        <?php else : ?>
+          <form action="<?= base_url() ?>/pimpinan/legerPembelian" method="POST" class="row g-3">
           <?php endif; ?>
-        </div>
-        <div class="col-md-9 row">
-          <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-3">
-            <input type="month" class="form-control">
+            <?php if (isset($_POST['update'])) : ?>
+              <h5>Periode : <?= $bulan; ?></h5>
+            <?php else : ?>
+              <h5>Periode : <?= date("M Y"); ?></h5>
+            <?php endif; ?>
           </div>
-          <label class="col-form-label col-md-2">Vendor</label>
-          <div class="col-md-3">
-            <select name="id_vendor" required class="form-select">
-              <option selected>Pilih Code - Nama</option>
-              <?php foreach ($dataVendor as $vendor) : ?>
-                <option value="<?= $vendor['id_vendor'] ?>"><?= $vendor['id_vendor']; ?> - <?= $vendor['nama_vendor']; ?></option>
-              <?php endforeach; ?>
-            </select>
+          <div class="col-md-9 row">
+            <label class="col-form-label col-md-2">Pilih Bulan</label>
+            <div class="col-md-3">
+              <input type="month" class="form-control" required name="bulan" max="<?= date("Y-m"); ?>">
+            </div>
+            <label class="col-form-label col-md-2">Vendor</label>
+            <div class="col-md-3">
+              <select name="id_vendor" required class="form-select">
+                <option selected>Pilih Code - Nama</option>
+                <?php foreach ($dataVendor as $vendor) : ?>
+                  <option value="<?= $vendor['id_vendor'] ?>"><?= $vendor['id_vendor']; ?> - <?= $vendor['nama_vendor']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
+            </div>
           </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>
+          </form>
+          <br>
+          <div class="row g-3">
+            <?php
+            if (isset($_POST['update'])) {
+              // foreach ($dataTransaksi as $transaksi) :
+              //   $namaV  = $transaksi['nama_vendor'];
+              //   $idV    = $transaksi['id_vendor'];
+              // endforeach;
+              $namaV  = $dVendor['nama_vendor'];
+              $idV    = $dVendor['id_vendor'];
+            } else {
+              $namaV  = "Silahkan Pilih";
+              $idV    = "-";
+            }
+            ?>
+            <div class="col-md-3">
+              <h5>Vendor : <?= $namaV; ?></h5>
+            </div>
+            <div class="col-md-3">
+              <h5>Code : <?= $idV; ?></h5>
+            </div>
           </div>
-        </div>
-      </form>
-      <br>
-      <div class="row g-3">
-        <?php foreach ($dataTransaksi as $transaksi) :
-          if (isset($_POST['update'])) {
-            $namaV  = $transaksi['nama_vendor'];
-            $idV    = $transaksi['id_vendor'];
-          } else {
-            $namaV  = "Silahkan Pilih";
-            $idV    = "-";
-          }
-        endforeach; ?>
-        <div class="col-md-3">
-          <h5>Vendor : <?= $namaV; ?></h5>
-        </div>
-        <div class="col-md-3">
-          <h5>Code : <?= $idV; ?></h5>
-        </div>
-      </div>
-      <br>
-      <table class="table table-hover">
-        <thead class="table-light">
-          <tr align="center">
-            <th>No.</th>
-            <th>Tanggal</th>
-            <th>Ekor</th>
-            <th>Kg</th>
-            <th>Harga</th>
-            <th>Total</th>
-            <th>Pembayaran</th>
-            <th>Saldo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php $i = 1;
-          foreach ($dataTransaksi as $transaksi) : ?>
-            <tr>
-              <td align="center"><?= $i; ?>.</td>
-              <td align="center"><?= $transaksi['tanggal']; ?></td>
-              <td align="center"><?= $transaksi['ekor']; ?></td>
-              <td align="center"><?= number_format($transaksi['kg'], 1, ",", "."); ?></td>
-              <td align="center"><?= number_format($transaksi['harga'], 0, ",", "."); ?></td>
-              <td align="center"><?= number_format($transaksi['total'], 0, ",", "."); ?></td>
-              <td align="center"><?= number_format($transaksi['pembayaran'], 0, ",", "."); ?></td>
-              <td align="center">0</td>
-            </tr>
-          <?php $i++;
-          endforeach; ?>
-        </tbody>
-        <tfoot class="table-light">
-          <tr>
-            <td colspan="2">Subtotal</td>
-            <td align="center"><?= $subtotal['ekor']; ?></td>
-            <td align="center"><?= number_format($subtotal['kg'], 1, ",", "."); ?></td>
-            <td align="center"><?= number_format($subtotal['harga'], 0, ",", "."); ?></td>
-            <td align="center"><?= number_format($subtotal['total'], 0, ",", "."); ?></td>
-            <td align="center"><?= number_format($subtotal['pembayaran'], 0, ",", "."); ?></td>
-            <td align="center">0</td>
-          </tr>
-        </tfoot>
-      </table>
+          <br>
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr align="center">
+                <th>No.</th>
+                <th>Tanggal</th>
+                <th>Ekor</th>
+                <th>Kg</th>
+                <th>Harga</th>
+                <th>Total</th>
+                <th>Pembayaran</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php $i = 1;
+              if (isset($_POST['update'])) :
+                foreach ($dataTransaksi as $transaksi) : ?>
+                  <tr>
+                    <td align="center"><?= $i; ?>.</td>
+                    <td align="center"><?= $transaksi['tanggal']; ?></td>
+                    <td align="center"><?= $transaksi['ekor']; ?></td>
+                    <td align="center"><?= number_format($transaksi['kg'], 1, ",", "."); ?></td>
+                    <td align="center"><?= number_format($transaksi['harga'], 0, ",", "."); ?></td>
+                    <td align="center"><?= number_format($transaksi['total'], 0, ",", "."); ?></td>
+                    <td align="center"><?= number_format($transaksi['pembayaran'], 0, ",", "."); ?></td>
+                    <td align="center">0</td>
+                  </tr>
+              <?php $i++;
+                endforeach;
+              endif; ?>
+            </tbody>
+            <tfoot class="table-light">
+              <tr>
+                <?php if (isset($_POST['update'])) {
+                  $ekor = $subtotal['ekor'];
+                  $kg = $subtotal['kg'];
+                  $harga = $subtotal['harga'];
+                  $subJumlah = $subtotal['jumlah'];
+                  $total = $subtotal['total'];
+                  $pembayaran = $subtotal['pembayaran'];
+                } else {
+                  $ekor = 0;
+                  $kg = 0;
+                  $harga = 0;
+                  $subJumlah = 0;
+                  $total = 0;
+                  $pembayaran = 0;
+                  $subSaldo = 0;
+                } ?>
+                <td colspan="2">Subtotal</td>
+                <td align="center"><?= $ekor; ?></td>
+                <td align="center"><?= number_format($kg, 1, ",", "."); ?></td>
+                <td align="center"><?= number_format($harga, 0, ",", "."); ?></td>
+                <td align="center"><?= number_format($total, 0, ",", "."); ?></td>
+                <td align="center"><?= number_format($pembayaran, 0, ",", "."); ?></td>
+                <td align="center">0</td>
+              </tr>
+            </tfoot>
+          </table>
     </div>
   </div>
 </main>

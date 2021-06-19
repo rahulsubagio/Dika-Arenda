@@ -14,7 +14,7 @@
                 Kasir
               </button>
             </div>
-            <div class="collapse <?= $this->session->flashdata('kasirJual'); ?>" id="kasir-collapse">
+            <div class="collapse <?= $this->session->flashdata('collapse_kasir'); ?>" id="kasir-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
 
                 <li class="nav-item">
@@ -22,7 +22,7 @@
                     <button class="btn btn-toggle align-items-center rounded collapsed text-white fs-6 px-3" data-bs-toggle="collapse" data-bs-target="#penjualan-collapse" aria-expanded="true">
                       Penjualan
                     </button>
-                    <div class="collapse <?= $this->session->flashdata('kasirJual'); ?>" id="penjualan-collapse">
+                    <div class="collapse <?= $this->session->flashdata('jualkasir'); ?>" id="penjualan-collapse">
                       <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
                         <li class="nav-item">
                           <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="<?= base_url('pimpinan/jurnalKasir') ?>">
@@ -64,18 +64,12 @@
                     <button class="btn btn-toggle align-items-center rounded collapsed text-white fs-6 px-3" data-bs-toggle="collapse" data-bs-target="#penyusutan-collapse" aria-expanded="true">
                       Penyusutan
                     </button>
-                    <div class="collapse <?= $this->session->flashdata('kasirSusut'); ?>" id="penyusutan-collapse">
+                    <div class="collapse <?= $this->session->flashdata('susutkasir'); ?>" id="penyusutan-collapse">
                       <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
                         <li class="nav-item">
                           <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('pimpinan/penyusutanMingguanKasir') ?>">
                             <span data-feather="home"></span>
                             Rekap Mingguan
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('pimpinan/penyusutanBulananKasir') ?>">
-                            <span data-feather="file"></span>
-                            Rekap Bulanan
                           </a>
                         </li>
                       </ul>
@@ -93,7 +87,7 @@
                 Marketing
               </button>
             </div>
-            <div class="collapse <?= $this->session->flashdata('kasirJual'); ?>" id="marketing-collapse">
+            <div class="collapse <?= $this->session->flashdata('collapse_pembelian'); ?>" id="marketing-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
 
                 <li class="nav-item">
@@ -101,59 +95,23 @@
                     <button class="btn btn-toggle align-items-center rounded collapsed text-white fs-6 px-3" data-bs-toggle="collapse" data-bs-target="#m-pembelian-collapse" aria-expanded="true">
                       Pembelian
                     </button>
-                    <div class="collapse <?= $this->session->flashdata('kasirJual'); ?>" id="m-pembelian-collapse">
+                    <div class="collapse <?= $this->session->flashdata('market'); ?>" id="m-pembelian-collapse">
                       <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('jurnal'); ?>" aria-current="page" href="<?= base_url('pimpinan/jurnal') ?>">
-                            <span data-feather="home"></span>
-                            Jurnal
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/leger') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/legerPembelian') ?>">
                             <span data-feather="file"></span>
                             Leger
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="<?= base_url('pimpinan/rekapHarian') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('rekhar'); ?>" href="<?= base_url('pimpinan/rekapHarianPembelian') ?>">
                             <span data-feather="shopping-cart"></span>
                             Rekap Harian
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href="<?= base_url('pimpinan/rekapBulanan') ?>">
+                          <a class="nav-link <?= $this->session->flashdata('rekbul'); ?>" href="<?= base_url('pimpinan/rekapBulananPembelian') ?>">
                             <span data-feather="users"></span>
-                            Rekap Bulanan
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('rekjual'); ?>" href="<?= base_url('pimpinan/rekapPenjualan') ?>">
-                            <span data-feather="bar-chart-2"></span>
-                            Rekap Penjualan
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-
-                <li class="nav-item">
-                  <div class="d-grid">
-                    <button class="btn btn-toggle align-items-center rounded collapsed text-white fs-6 px-3" data-bs-toggle="collapse" data-bs-target="#m-penjualan-collapse" aria-expanded="true">
-                      Penjualan
-                    </button>
-                    <div class="collapse <?= $this->session->flashdata('kasirSusut'); ?>" id="m-penjualan-collapse">
-                      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
-                        <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('pimpinan/penyusutanMingguan') ?>">
-                            <span data-feather="home"></span>
-                            Rekap Mingguan
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('pimpinan/penyusutanBulanan') ?>">
-                            <span data-feather="file"></span>
                             Rekap Bulanan
                           </a>
                         </li>
@@ -182,6 +140,10 @@
         </ul>
 
         <?php
+        unset($_SESSION['collapse_kasir']);
+        unset($_SESSION['collapse_marketing']);
+        unset($_SESSION['collapse_jualkasir']);
+        unset($_SESSION['collapse_susutkasir']);
         unset($_SESSION['jurnal']);
         unset($_SESSION['leger']);
         unset($_SESSION['rekhar']);
