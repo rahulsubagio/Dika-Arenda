@@ -37,7 +37,7 @@
               <div class="col-md-9 row">
                 <label class="col-form-label col-md-2">Pilih Tanggal</label>
                 <div class="col-md-5">
-                  <input type="date" class="form-control" name="tanggal">
+                  <input type="date" class="form-control" name="tanggal" max="<?= date("Y-m-d"); ?>">
                 </div>
                 <div class="col-md-2">
                   <button type="submit" class="btn btn-primary" name="update">Cek &downdownarrows;</button>
