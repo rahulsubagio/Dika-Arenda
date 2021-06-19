@@ -25,7 +25,7 @@
         <div class="col-md-9 row">
           <label class="col-form-label col-md-2">Pilih Bulan</label>
           <div class="col-md-5">
-            <input type="month" class="form-control" name="bulan">
+            <input type="month" class="form-control" name="bulan" max="<?= date("Y-m");?>">
           </div>
           <div class="col-md-2">
             <button class="btn btn-primary" name="update">Cek &downdownarrows;</button>

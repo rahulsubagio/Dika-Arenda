@@ -30,7 +30,7 @@
           <div class="col-md-9 row">
             <label class="col-form-label col-md-2">Pilih Bulan</label>
             <div class="col-md-3">
-              <input type="month" class="form-control" required name="bulan">
+              <input type="month" class="form-control" required name="bulan" max="<?= date("Y-m");?>">
             </div>
             <label class="col-form-label col-md-2">Customer</label>
             <div class="col-md-3">
