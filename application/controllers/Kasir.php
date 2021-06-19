@@ -31,6 +31,8 @@ class Kasir extends CI_Controller
     $this->session->set_flashdata('judul', 'Jurnal Transaksi');
     $this->session->set_flashdata('base', 'kasir');
 
+
+
     $data = $this->loadJurnal();
 
     $this->load->view('templates/navbar');
@@ -67,7 +69,6 @@ class Kasir extends CI_Controller
   public function leger()
   {
     $this->session->set_flashdata('leger', 'active');
-    $this->session->set_flashdata('base', 'kasir');
     $data = $this->loadLeger();
 
     $this->load->view('templates/navbar');
@@ -100,7 +101,6 @@ class Kasir extends CI_Controller
     $this->session->set_flashdata('rekhar', 'active');
     $this->session->set_flashdata('judul', 'Rekapitulasi Transaksi Harian');
     $this->session->set_flashdata('button', 'off');
-    $this->session->set_flashdata('base', 'kasir');
 
     $data = $this->loadRekapHarian();
 
@@ -130,7 +130,6 @@ class Kasir extends CI_Controller
   public function rekapBulanan()
   {
     $this->session->set_flashdata('rekbul', 'active');
-    $this->session->set_flashdata('base', 'kasir');
     $data = $this->loadRekapBulanan();
 
     $this->load->view('templates/navbar');
@@ -159,7 +158,6 @@ class Kasir extends CI_Controller
   public function rekapPenjualan()
   {
     $this->session->set_flashdata('rekjual', 'active');
-    $this->session->set_flashdata('base', 'kasir');
     $data = $this->loadRekapPenjualan();
 
     $this->load->view('templates/navbar');
@@ -189,7 +187,6 @@ class Kasir extends CI_Controller
   {
     $this->session->set_flashdata('susutMinggu', 'active');
     $this->session->set_flashdata('button', 'on');
-    $this->session->set_flashdata('base', 'kasir');
     $data = $this->loadPenyusutanMingguan();
 
     $this->load->view('templates/navbar');
@@ -260,6 +257,17 @@ class Kasir extends CI_Controller
       $pembayaran = intval($this->input->post('pembayaran'));
       $total = ($kg * $harga) - ($a * $kg);
 
+      $data = array(
+        'code' => $code,
+        'tanggal' => $today,
+        'ekor' => $ekor,
+        'kg' => $kg,
+        'harga' => $harga,
+        'a_kompensasi' => $a,
+        'total' => $total,
+        'pembayaran' => $pembayaran
+      );
+
       $jenisCode = substr($code, 0, 1);
       if ($jenisCode == "C") {
         $saldoTambahan = $pembayaran - $total;
@@ -300,18 +308,16 @@ class Kasir extends CI_Controller
       $pembayaran = intval($this->input->post('pembayaran'));
       $total = ($kg * $harga) - ($a * $ekor);
 
-      // $data = array(
-      //   'code' => $codeCus,
-      //   ''
-      //   'tanggal' => $today,
-      //   'ekor' => $ekor,
-      //   'kg' => $kg,
-      //   'harga' => $harga,
-      //   'a_kompensasi' => $a,
-      //   'total' => $total,
-      //   'pembayaran' => $pembayaran
-      // );
-      $code = $codeCus;
+      $data = array(
+        'code' => $codeCus,
+        'tanggal' => $today,
+        'ekor' => $ekor,
+        'kg' => $kg,
+        'harga' => $harga,
+        'a_kompensasi' => $a,
+        'total' => $total,
+        'pembayaran' => $pembayaran
+      );
 
       if ($this->input->post('status') == "customer") {
         $saldo = $pembayaran - $total;
@@ -335,22 +341,12 @@ class Kasir extends CI_Controller
       }
     }
 
-    $id_produk = $this->tambahDetailPenjualan($today);
-    $data = array(
-      'code' => $code,
-      'id_produk' => $id_produk,
-      'tanggal' => $today,
-      'ekor' => $ekor,
-      'kg' => $kg,
-      'harga' => $harga,
-      'a_kompensasi' => $a,
-      'total' => $total,
-      'pembayaran' => $pembayaran
-    );
-    
-    $this->kurangProduk($kg, $ekor, $id_produk);
 
     $this->Kasir_model->tambahTransaksi($data);
+    $transaksiBaruBanget = $this->Kasir_model->getTransaksiBaru();
+    $id = $transaksiBaruBanget['id_penjualan'];
+    $id_produk = $this->tambahDetailPenjualan($today, $id);
+    $this->kurangProduk($kg, $ekor, $id_produk);
 
     // $this->Post_model->tambahPost($data);
     // $this->session->set_flashdata('notif', 'ditambahkan');
@@ -380,7 +376,6 @@ class Kasir extends CI_Controller
 
       $data = array(
         'id_penjualan' => $this->input->post('id'),
-        'id_produk' => $this->input->post('id_produk'),
         'code' => $this->input->post('code'),
         'tanggal' => $this->input->post('tanggal'),
         'ekor' => $this->input->post('ekor'),
@@ -421,9 +416,9 @@ class Kasir extends CI_Controller
         $this->Kasir_model->updateRekening($detailRekening['id_rekening'], $perubahanSaldoRekening);
       }
       //edit produk
-      
+      $detail = $this->Kasir_model->getDetailPenjualan($id);
 
-      $id_produk = $this->input->post('id_produk');
+      $id_produk = $detail['id_produk'];
       $this->tambahProduknya($kgLama, $ekorLama, $id_produk);
       $this->kurangProduk($kg, $ekor, $id_produk);
 
@@ -490,12 +485,14 @@ class Kasir extends CI_Controller
     }
 
 
+    $detail = $this->Kasir_model->getDetailPenjualan($id);
 
     $kg = floatval($transaksi['kg']);
     $ekor = intval($transaksi['ekor']);
-    $id_produk = $transaksi['id_produk'];
+    $id_produk = $detail['id_produk'];
     $this->tambahProduknya($kg, $ekor, $id_produk);
 
+    $this->Kasir_model->deleteDetailTransaksi($id);
     $this->Kasir_model->deleteTransaksi($id);
     redirect(base_url() . "kasir/jurnal");
   }
@@ -587,7 +584,7 @@ class Kasir extends CI_Controller
     return $persen;
   }
 
-  public function tambahDetailPenjualan($tanggal)
+  public function tambahDetailPenjualan($tanggal, $id_penjualan)
   {
     $produk = $this->Kasir_model->cekProduk($tanggal);
     if ($produk == 0) {
@@ -595,6 +592,11 @@ class Kasir extends CI_Controller
     }
     $produk = $this->Kasir_model->getProduk($tanggal);
     $id_produk = $produk['id_produk'];
+    $data = array(
+      'id_penjualan' => $id_penjualan,
+      'id_produk' => $id_produk
+    );
+    $this->Kasir_model->tambahDetailPenjualan($data);
     return $id_produk;
   }
 
