@@ -19,9 +19,8 @@
           <input type="hidden" name="id" value="<?= $transaksi['id_penjualan']; ?>">
           <input type="hidden" name="code" value="<?= $transaksi['code']; ?>">
           <input type="hidden" name="id_produk" value="<?= $transaksi['id_produk']; ?>">
-          <input type="hidden" name="tanggal" value="<?= $transaksi['tanggal']; ?>"
-          <thead align="center" class="table-dark">
-            <th colspan="2">Customer</th>
+          <input type="hidden" name="tanggal" value="<?= $transaksi['tanggal']; ?>" <thead align="center" class="table-dark">
+          <th colspan="2">Customer</th>
           </thead>
           <tr>
             <td>Code Customer</td>
@@ -54,7 +53,6 @@
               <fieldset disabled="disabled">
                 <input type="number" value="<?= $transaksi['jumlah'] ?>">
               </fieldset>
-              Bagian JS buat perhitungan langsungnya (Harga * Kg)
             </td>
           </tr>
           <tr>
@@ -67,7 +65,6 @@
               <fieldset disabled="disabled">
                 <input type="number" value="<?= $transaksi['total'] ?>">
               </fieldset>
-              Bagian JS buat perhitungan langsungnya (Jumlah - (a * Kg))
             </td>
           </tr>
           <thead class="table-dark" align="center">
