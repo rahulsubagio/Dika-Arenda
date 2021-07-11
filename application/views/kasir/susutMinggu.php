@@ -80,7 +80,7 @@
             <tbody>
               <?php
               if ($susut != NULL) :
-                $this->load->model('Kasir_model');
+                // $this->load->model('Kasir_model');
                 $i = 1;
                 foreach ($susut as $s) :
                   $tanggal =  strtotime($s['tanggal']);

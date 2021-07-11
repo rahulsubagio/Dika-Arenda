@@ -331,11 +331,12 @@ class Kasir_model extends CI_Model
   public function getSusutSeminggu($tanggal){
     return $this->db
       ->select('pr.*, dp.*, py.*, SUM(pj.ekor) as pj_ekor, SUM(pj.kg) as pj_kg')
-      ->from('produk as pr')
-      ->join('detail_penyusutan as dp', 'dp.id_produk = pr.id_produk')
+      ->from('detail_penyusutan as dp')
+      ->join('produk as pr', 'dp.id_produk = pr.id_produk')
       ->join('penyusutan as py', 'dp.id_penyusutan = py.id_penyusutan')
       ->join('penjualan as pj', 'pj.id_produk = pr.id_produk')
-      ->like('pr.tanggal', $tanggal)     
+      ->like('pr.tanggal', $tanggal)
+      ->group_by('pj.tanggal')     
       ->get()
       ->result_array();
   }

@@ -492,7 +492,7 @@ class Kasir extends CI_Controller
     $id_produk = $transaksi['id_produk'];
     $this->tambahProduknya($kg, $ekor, $id_produk);
 
-    $this->Kasir_model->deleteDetailTransaksi($id);
+    // $this->Kasir_model->deleteDetailTransaksi($id);
     $this->Kasir_model->deleteTransaksi($id);
     redirect(base_url() . "kasir/jurnal");
   }
@@ -548,6 +548,7 @@ class Kasir extends CI_Controller
       'riil_kg' => $riil_kg
     );
     $this->Kasir_model->tambahDetailSusut($data);
+    // var_dump($data);
     redirect(base_url() . "kasir/penyusutanMingguan");
   }
 
