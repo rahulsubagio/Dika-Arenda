@@ -50,8 +50,8 @@
           <li class="nav-item">
           <a class="nav-link <?= $this->session->flashdata('susutMinggu'); ?>" href="<?= base_url('kasir/penyusutanMingguan') ?>">
               <span data-feather="home"></span>
-              Rekap Mingguan
-            </a>
+              Rekap Bulanan
+            </a>  
           </li>
           <!-- <li class="nav-item">
           <a class="nav-link <?= $this->session->flashdata('susutBulan'); ?>" href="<?= base_url('kasir/penyusutanBulanan') ?>">
