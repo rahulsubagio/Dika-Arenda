@@ -99,4 +99,45 @@ class Marketing_model extends CI_Model
       ->get()
       ->row_array();
   }
+
+  public function tambahProduk($data)
+  {
+    $this->db->insert('produk', $data);
+  }
+
+  public function cekProduk($tanggal)
+  {
+    return $this->db
+      ->where('tanggal', $tanggal)
+      ->from('produk')
+      ->get()
+      ->num_rows();
+  }
+
+  public function getProduk($tanggal)
+  {
+    return $this->db
+      ->where('tanggal', $tanggal)
+      ->from('produk')
+      ->get()
+      ->row_array();
+  }
+
+  public function getProdukbyId($id)
+  {
+    return $this->db
+      ->where('id_produk', $id)
+      ->get('produk')
+      ->row_array();
+  }
+
+  public function updateProduk($id, $data)
+  {
+    $this->db->where('id_produk', $id)->update('produk', $data);
+  }
+
+  public function deletetransaksi($id)
+  {
+    $this->db->where('id_transaksi', $id)->delete('transaksi');
+  }
 }

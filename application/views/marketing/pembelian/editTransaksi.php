@@ -72,7 +72,7 @@
             <td colspan="2"><button type="submit" name="update" class="btn btn-success col-6">Simpan</button></td>
           </tr>
         </table>
-        <?= var_dump($transaksi); ?>
+        <!-- <?= var_dump($transaksi); ?> -->
       </form>
     </div>
   </div>

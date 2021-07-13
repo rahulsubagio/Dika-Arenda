@@ -62,7 +62,7 @@
             </thead>
             <tbody>
               <?php $i = 1;
-              if (isset($_POST['update'])) :
+              if (isset($dataTransaksi)) :
                 foreach ($dataTransaksi as $transaksi) : ?>
                   <tr>
                     <td align="center"><?= $i; ?>.</td>
