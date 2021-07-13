@@ -26,7 +26,7 @@
                 <li class="nav-item">
                   <a class="nav-link <?= $this->session->flashdata('legerBeli'); ?>" href="<?= base_url('marketing/legerPembelian') ?>">
                     <span data-feather="file"></span>
-                    Leger
+                    Ledger
                   </a>
                 </li>
                 <li class="nav-item">

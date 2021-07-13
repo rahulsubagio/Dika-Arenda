@@ -19,7 +19,7 @@
           <li class="nav-item">
             <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('kasir/leger') ?>">
               <span data-feather="file"></span>
-              Leger
+              Ledger
             </a>
           </li>
           <li class="nav-item">

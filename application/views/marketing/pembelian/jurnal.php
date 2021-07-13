@@ -72,7 +72,7 @@
                   </thead>
                   <tbody>
                     <?php $i = 1;
-                    if (isset($_POST['update'])) :
+                    if (isset($dataTransaksi)) :
                       foreach ($dataTransaksi as $transaksi) : ?>
                         <tr>
                           <td align="center"><?= $i; ?>.</td>
@@ -89,7 +89,7 @@
                           <?php if ($this->session->flashdata('button') == "on") : ?>
                             <td align="center">
                               <a href="<?= base_url(); ?>marketing/editTransaksi/<?= $transaksi['id_transaksi']; ?>" class="btn btn-primary btn-sm">Ubah</a>
-                              <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                              <a href="<?= base_url(); ?>marketing/deleteTransaksi/<?= $transaksi['id_transaksi'] ?>" class="btn btn-danger btn-sm">Hapus</a>
                             </td>
                           <?php endif; ?>
                         </tr>
@@ -183,7 +183,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-primary">Tambah / Simpan</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
           </div>
         </form>
       </div>

@@ -48,7 +48,7 @@ class Marketing extends CI_Controller
       $data['hari'] = $tanggal;
       // $this->session->set_flashdata('button', 'on');
     } else {
-      $data['dataTransaksi']  = $this->Marketing_model->getTransaksi($tanggal);
+      $data['dataTransaksi']  = $this->Marketing_model->getTransaksi($today);
       $data['subtotal'] = $this->Marketing_model->getSubtotalJurnal($today);
       $data['hari'] = $today;
       // $this->session->set_flashdata('button', 'on');
@@ -125,15 +125,18 @@ class Marketing extends CI_Controller
   public function _rekapBulananPembelian()
   {
     if (isset($_POST['update'])) {
-      $bulan      = $this->input->post('bulan');
-      $dataBulan  = strtotime($bulan);
-      $bulannya   = date("M Y", $dataBulan);
-
-      $data['dataTransaksi']  = $this->Marketing_model->getTransaksi($bulan);
-      $data['subtotal'] = $this->Marketing_model->getSubtotalJurnal($bulan);
+      $bulan = $this->input->post('bulan');
+      $dataBulan = strtotime($bulan);
+      $bulannya = date("M Y", $dataBulan);
       $data['bulan'] = $bulannya;
-      return $data;
+    } else {
+      $bulan = date("Y-m");
+      $data['bulan'] = $bulan;
     }
+    $data['dataTransaksi'] = $this->Marketing_model->getTransaksi($bulan);
+    $data['subtotal'] = $this->Marketing_model->getSubtotalJurnal($bulan);
+
+    return $data;
   }
 
   public function tambahTransaksi($data = null)
@@ -160,6 +163,8 @@ class Marketing extends CI_Controller
       'total'       => $total,
       'pembayaran'  => $bayar
     );
+    $id_produk = $this->tambahDetailPembelian($tanggal);
+    $this->tambahProduknya($berat, $ekor, $id_produk);
     $this->Marketing_model->tambahTransaksi($data);
     redirect('/marketing/jurnalPembelian');
   }
@@ -170,6 +175,7 @@ class Marketing extends CI_Controller
     $this->session->set_flashdata('judul', 'Edit Transaksi');
 
     $data['transaksi'] = $this->Marketing_model->getTransaksiById($id);
+    $transaksi = $this->Marketing_model->getTransaksiById($id);
 
     if (isset($_POST['update'])) {
       $berat          = floatval($this->input->post('berat'));
@@ -190,6 +196,10 @@ class Marketing extends CI_Controller
         'total'         => $total,
         'pembayaran'    => $pembayaran
       );
+
+      $id_produk = $this->tambahDetailPembelian($transaksi['tanggal']);
+      $this->tambahProduknya($berat, $ekor, $id_produk);
+      $this->kurangProduk($transaksi['kg'], $transaksi['ekor'], $id_produk);
 
       $this->Marketing_model->updateTransaksi($id, $data);
       redirect('/marketing/jurnalPembelian');
@@ -224,6 +234,76 @@ class Marketing extends CI_Controller
       'telp'          => $telp
     );
     $this->Marketing_model->tambahVendor($data);
+    redirect('/marketing/jurnalPembelian');
+  }
+
+  public function tambahProduk($tanggal)
+  {
+    $daybefore = strtotime($tanggal . '-1 day');
+    $kemaren = date("Y-m-d", $daybefore);
+    $produknya = $this->Marketing_model->getProduk($kemaren);
+
+    $ekor = $produknya['stok_ekor'];
+    $kg = $produknya['stok_kg'];
+
+    $data = array(
+      'tanggal' => $tanggal,
+      'stok_ekor' => $ekor,
+      'stok_kg' => $kg
+    );
+    $this->Marketing_model->tambahProduk($data);
+  }
+
+  public function tambahDetailPembelian($tanggal)
+  {
+    $produk = $this->Marketing_model->cekProduk($tanggal);
+    if ($produk == 0) {
+      $this->tambahProduk($tanggal);
+    }
+    $produk = $this->Marketing_model->getProduk($tanggal);
+    $id_produk = $produk['id_produk'];
+    return $id_produk;
+  }
+
+  public function kurangProduk($kg, $ekor, $id)
+  {
+    $produk = $this->Marketing_model->getProdukbyId($id);
+    $ekorLama = intval($produk['stok_ekor']);
+    $kgLama = floatval($produk['stok_kg']);
+    $ekorBaru = $ekorLama - $ekor;
+    $kgBaru = $kgLama - $kg;
+    $data = array(
+      'id_produk' => $id,
+      'tanggal' => $produk['tanggal'],
+      'stok_ekor' => $ekorBaru,
+      'stok_kg' => $kgBaru
+    );
+    $this->Marketing_model->updateProduk($id, $data);
+  }
+
+  public function tambahProduknya($kg, $ekor, $id)
+  {
+    $produk = $this->Marketing_model->getProdukbyId($id);
+    $ekorLama = intval($produk['stok_ekor']);
+    $kgLama = floatval($produk['stok_kg']);
+    $ekorBaru = $ekorLama + $ekor;
+    $kgBaru = $kgLama + $kg;
+    $data = array(
+      'id_produk' => $id,
+      'tanggal' => $produk['tanggal'],
+      'stok_ekor' => $ekorBaru,
+      'stok_kg' => $kgBaru
+    );
+    $this->Marketing_model->updateProduk($id, $data);
+  }
+
+  public function deleteTransaksi($id)
+  {
+    $transaksi = $this->Marketing_model->getTransaksiById($id);
+    $id_produk = $this->tambahDetailPembelian($transaksi['tanggal']);
+    $this->kurangProduk($transaksi['kg'], $transaksi['ekor'], $id_produk);
+
+    $this->Marketing_model->deletetransaksi($id);
     redirect('/marketing/jurnalPembelian');
   }
 }

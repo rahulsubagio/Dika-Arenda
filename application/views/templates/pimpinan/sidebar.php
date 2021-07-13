@@ -33,7 +33,7 @@
                         <li class="nav-item">
                           <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/legerKasir') ?>">
                             <span data-feather="file"></span>
-                            Leger
+                            Ledger
                           </a>
                         </li>
                         <li class="nav-item">
@@ -100,7 +100,7 @@
                         <li class="nav-item">
                           <a class="nav-link <?= $this->session->flashdata('leger'); ?>" href="<?= base_url('pimpinan/legerPembelian') ?>">
                             <span data-feather="file"></span>
-                            Leger
+                            Ledger
                           </a>
                         </li>
                         <li class="nav-item">
